@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EquipmentAmmoUIContainerScript : MonoBehaviour
+public class HorizontalImageContainer : MonoBehaviour
 {
     [SerializeField] private GameObject uiImagePrefab;
-    [SerializeField] private Vector2 ammoImageDimensions;
+    [SerializeField] private Vector2 imageDimensions = new Vector2(8.0f, 8.0f);
     [SerializeField] private float imagePadding = 2.0f;
-    [SerializeField] private int initialAmmoImageCount = 3;
+    [SerializeField] private int initialImageCount = 3;
+    // Controls the direction the image line grows along. Use -1 to start from the left and grow right and use 1 to start from the right and grow to the left.
+    // Must be -1 or 1
+    [SerializeField] private int horizontalAlignment = -1;
 
-    private List<GameObject> ammoImages = new List<GameObject>();
+    private List<GameObject> images = new List<GameObject>();
 
-    private void CreateAmmoImage(RectTransform containerRectTransform)
+    private void CreateImage(RectTransform containerRectTransform)
     {
         // Check a ui image prefab has been set in the editor
         if (!uiImagePrefab)
@@ -35,46 +38,49 @@ public class EquipmentAmmoUIContainerScript : MonoBehaviour
         }
 
         // Set the width and height of the image rect transform
-        imageRectTransform.sizeDelta = ammoImageDimensions;
+        imageRectTransform.sizeDelta = imageDimensions;
 
-        // Set the position of the image to the far left position of the container
+        // Set the position of the image
         imageRectTransform.anchoredPosition = new Vector2(
-            (-containerRectTransform.sizeDelta.x / 2.0f) + (imageRectTransform.sizeDelta.x / 2.0f) + (imageRectTransform.sizeDelta.x + imagePadding) * ammoImages.Count,
+            (horizontalAlignment * (containerRectTransform.sizeDelta.x / 2.0f)) + 
+            (-horizontalAlignment * (imageRectTransform.sizeDelta.x / 2.0f)) + 
+            (-horizontalAlignment * (imageRectTransform.sizeDelta.x + imagePadding))
+            * images.Count,
             0.0f);
 
         // Add the image to the list of ammo images
-        ammoImages.Add(image);
+        images.Add(image);
     }
 
-    public void RemoveAmmoImage()
+    public void RemoveImage()
     {
-        // Check if there is at least 1 ammo image remaining
-        if(ammoImages.Count > 0)
+        // Check if there is at least 1 image remaining
+        if(images.Count > 0)
         {
             // Get the last image in the list
-            var image = ammoImages[ammoImages.Count - 1];
+            var image = images[images.Count - 1];
 
             // Destroy the retrieved image
             Destroy(image);
 
             // Remove the image from the images list
-            ammoImages.RemoveAt(ammoImages.Count - 1);
+            images.RemoveAt(images.Count - 1);
         }
     }
 
-    public void AddAmmoImage()
+    public void AddImage()
     {
         // Create an ammo image
-        CreateAmmoImage(gameObject.GetComponent<RectTransform>() as RectTransform);
+        CreateImage(gameObject.GetComponent<RectTransform>() as RectTransform);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // Add ammo image up to the entered initial count
-        for(int i = 0; i < initialAmmoImageCount; ++i)
+        // Add image up to the entered initial count
+        for(int i = 0; i < initialImageCount; ++i)
         {
-            AddAmmoImage();
+            AddImage();
         }
     }
 

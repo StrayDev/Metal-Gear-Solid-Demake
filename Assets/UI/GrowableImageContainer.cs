@@ -2,15 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HorizontalImageContainer : MonoBehaviour
+public class GrowableImageContainer : MonoBehaviour
 {
+    enum EDirection
+    {
+        Vertical = 0,
+        Horizontal,
+    };
+
     [SerializeField] private GameObject uiImagePrefab;
     [SerializeField] private Vector2 imageDimensions = new Vector2(8.0f, 8.0f);
     [SerializeField] private float imagePadding = 2.0f;
     [SerializeField] private int initialImageCount = 3;
-    // Controls the direction the image line grows along. Use -1 to start from the left and grow right and use 1 to start from the right and grow to the left.
-    // Must be -1 or 1
-    [SerializeField] private int horizontalAlignment = -1;
+    // Controls the direction the image line will grow in
+    [SerializeField] private EDirection direction = EDirection.Horizontal;
+    // Controls the direction the image line starts from and grows along. Use -1 to start from the
+    // left/bottom and grow to the right/top and use 1 to start from the right/top and grow to the left/bottom. Must be -1 or 1
+    [SerializeField] private int alignment = -1;
 
     private List<GameObject> images = new List<GameObject>();
 
@@ -40,13 +48,29 @@ public class HorizontalImageContainer : MonoBehaviour
         // Set the width and height of the image rect transform
         imageRectTransform.sizeDelta = imageDimensions;
 
-        // Set the position of the image
-        imageRectTransform.anchoredPosition = new Vector2(
-            (horizontalAlignment * (containerRectTransform.sizeDelta.x / 2.0f)) + 
-            (-horizontalAlignment * (imageRectTransform.sizeDelta.x / 2.0f)) + 
-            (-horizontalAlignment * (imageRectTransform.sizeDelta.x + imagePadding))
-            * images.Count,
-            0.0f);
+        // Switch on the grow direction to correctly position the new image
+        switch(direction)
+        {
+            case EDirection.Horizontal:
+                // Position the image horizontally
+                imageRectTransform.anchoredPosition = new Vector2(
+                    (alignment * (containerRectTransform.sizeDelta.x / 2.0f)) +
+                    (-alignment * (imageRectTransform.sizeDelta.x / 2.0f)) +
+                    (-alignment * (imageRectTransform.sizeDelta.x + imagePadding))
+                    * images.Count,
+                    0.0f);
+                break;
+
+            case EDirection.Vertical:
+                // Position the image vertically
+                imageRectTransform.anchoredPosition = new Vector2(
+                    0.0f,
+                    (alignment * (containerRectTransform.sizeDelta.y / 2.0f)) +
+                    (-alignment * (imageRectTransform.sizeDelta.y / 2.0f)) +
+                    (-alignment * (imageRectTransform.sizeDelta.y + imagePadding))
+                    * images.Count);
+                break;
+        }
 
         // Add the image to the list of ammo images
         images.Add(image);

@@ -11,13 +11,20 @@ public class PlayerDetection : MonoBehaviour
     private float maxViewDistance = 10f;
     [SerializeField]
     private int numberOfRaycasts = 10;
+    [SerializeField]
+    private float shootCooldown = 3f;
+
+    private float cooldownRemaining = 0f;
 
     // Update is called once per frame
     void Update()
     {
-        if(CheckObjectInSight())
+        if (cooldownRemaining > 0) cooldownRemaining -= Time.deltaTime;
+
+        Transform playerLocation = CheckObjectInSight();
+        if (playerLocation != null)
         {
-            SeesPlayer();
+            SeesPlayer(playerLocation);
         }
         else
         {
@@ -25,24 +32,24 @@ public class PlayerDetection : MonoBehaviour
         }
     }
 
-    bool CheckObjectInSight()
+    Transform CheckObjectInSight()
     {
-        List<RaycastHit2D> hits = new List<RaycastHit2D>();
+        RaycastHit hit = new RaycastHit();
         for (int i=0; i <= numberOfRaycasts; ++i)
         {
             float t = (float)i / (float)numberOfRaycasts;
             float rayAngle = Mathf.Lerp(angleOfView, -angleOfView, t);
 
             //Vector2 dtv = DegreesToVector2(rayAngle);
-            Vector2 direction = RotateVectorByDegrees(transform.up, rayAngle);
+            Vector3 direction = RotateVectorByDegrees(transform.up, rayAngle);
 
-            Physics2D.Raycast(transform.position, direction, new ContactFilter2D(), hits, maxViewDistance);
-            if (hits.Count > 0 && IsPlayer(hits[0].collider.gameObject))
+            Physics.Raycast(transform.position, direction, out hit, maxViewDistance);
+            if (hit.collider != null && IsPlayer(hit.collider.gameObject))
             {
-                return true;
+                return hit.collider.transform;
             }
         }
-        return false;
+        return null;
     }
 
     Vector2 RotateVectorByDegrees(Vector2 vector, float degrees)
@@ -73,12 +80,20 @@ public class PlayerDetection : MonoBehaviour
 
     private bool IsPlayer(GameObject other)
     {
-        return other.name == "Test";
+        return other != null && other.name == "Player";
     }
 
-    private void SeesPlayer()
+    private void SeesPlayer(Transform player)
     {
         GetComponentInChildren<Renderer>().material.color = Color.red;
+        if (GetComponent<FireBullet>())
+        {
+            if (cooldownRemaining <= 0)
+            {
+                GetComponent<FireBullet>().Fire(transform.position, (player.position - transform.position).normalized);
+                cooldownRemaining = shootCooldown;
+            }
+        }
     }
 
     private void DoesNotSeePlayer()

@@ -19,6 +19,7 @@ public class ItemPool : MonoBehaviour
         {
             GameObject newObject = Instantiate(poolObject);
             newObject.SetActive(false);
+            newObject.transform.SetParent(transform);
             pool.Add(newObject);
         }
     }

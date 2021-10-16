@@ -43,7 +43,7 @@ public class PlayerDetection : MonoBehaviour
             //Vector2 dtv = DegreesToVector2(rayAngle);
             Vector3 direction = RotateVectorByDegrees(transform.up, rayAngle);
 
-            Physics.Raycast(transform.position, direction, out hit, maxViewDistance);
+            Physics.Raycast(transform.position, direction, out hit, maxViewDistance, ~(1 << 2));
             if (hit.collider != null && IsPlayer(hit.collider.gameObject))
             {
                 return hit.collider.transform;
@@ -80,7 +80,7 @@ public class PlayerDetection : MonoBehaviour
 
     private bool IsPlayer(GameObject other)
     {
-        return other != null && other.name == "Player";
+        return other != null && other.GetComponentInParent<PlayerController>();
     }
 
     private void SeesPlayer(Transform player)

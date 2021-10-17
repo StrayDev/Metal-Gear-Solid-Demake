@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/FireBullet.cs.meta
 guid: e1655f9cd666b164089b927376be48b3
+=======
+guid: f18ce28665f39ff4393eff405ba9d7be
+>>>>>>> features/ui:Assets/UI/Scripts/MainMenu.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

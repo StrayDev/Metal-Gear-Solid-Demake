@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/Bullet.cs.meta
 guid: 2b29b145904c9384795def1447ed1f71
+=======
+guid: 472bd24f4d4b3f940a1071850754c101
+>>>>>>> features/ui:Assets/UI/Scripts/GrowableImageContainer.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

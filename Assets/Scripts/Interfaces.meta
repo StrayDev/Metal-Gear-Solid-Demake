@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/Interfaces.meta
 guid: 9453d22b6b765bf4c9467421ce65f9ea
+=======
+guid: f54d1bd14bd3ca042bd867b519fee8cc
+>>>>>>> features/ui:Assets/TextMesh Pro.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/GameController.cs.meta
+guid: 7c46ac64cd13c1c4798689faf1c84e46
+=======
+guid: 5fd794ade4fda3647b52235403f1a1ee
+>>>>>>> features/ui:Assets/UI/Scripts/ProgressBar.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

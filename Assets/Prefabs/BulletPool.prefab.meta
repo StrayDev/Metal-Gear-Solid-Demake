@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/BulletPool.prefab.meta
 guid: 005cf32329e29ca4cbc96a5bd9e37627
+=======
+guid: bb26b3f244d36d843a5edba12e7bede8
+>>>>>>> features/ui:Assets/UI/Prefabs/PF_MainMenu_UI_Canvas.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

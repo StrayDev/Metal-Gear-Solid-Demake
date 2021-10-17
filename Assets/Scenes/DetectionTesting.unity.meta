@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scenes/DetectionTesting.unity.meta
 guid: d248b0c1d7fe38b42ab469fcfee194e9
+=======
+guid: 1b8d251f9af63b746bf2f7ffe00ebb9b
+>>>>>>> features/ui:Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

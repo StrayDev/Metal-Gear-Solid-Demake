@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
         // TODO -- hurt player
         gameObject.SetActive(false);

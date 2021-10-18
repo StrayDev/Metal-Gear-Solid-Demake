@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/GameController.prefab.meta
+guid: 0c844a5109f48054789bfd72593a9d5a
+=======
+guid: 6c82a8db3838a8d489e40563efe8637d
+>>>>>>> features/ui:Assets/UI/Prefabs/PF_UI_Growable_Image_container.prefab.meta
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

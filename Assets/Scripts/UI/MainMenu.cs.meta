@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/FireBullet.cs.meta
+guid: 352607b340438d84a885d62a265f84cc
+=======
+guid: f18ce28665f39ff4393eff405ba9d7be
+>>>>>>> features/ui:Assets/UI/Scripts/MainMenu.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/Bullet.prefab.meta
+guid: 8c2ce41a323899b42a907fe92bfdb9d3
+=======
+guid: 27c2ca56171df054795ecf775f5edbca
+>>>>>>> features/ui:Assets/UI/Prefabs/PF_Game_UI_Canvas.prefab.meta
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

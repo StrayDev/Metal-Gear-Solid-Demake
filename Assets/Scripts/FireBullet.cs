@@ -23,7 +23,7 @@ public class FireBullet : MonoBehaviour
         }
     }
 
-    public void Fire(Vector2 origin, Vector2 direction)
+    public void Fire(Vector2 origin, Vector2 direction, float pz)
     {
         GameObject bullet;
         if(bulletPool == null)
@@ -34,7 +34,7 @@ public class FireBullet : MonoBehaviour
         {
             bullet = bulletPool.GetFirstAvailableItem();
         }
-        bullet.transform.position = origin;
+        bullet.transform.position = new Vector3(origin.x,origin.y,pz);
         bullet.transform.rotation = Quaternion.LookRotation(direction);
 
         bullet.GetComponent<Bullet>().ResetBullet();

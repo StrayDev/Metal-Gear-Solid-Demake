@@ -1,0 +1,17 @@
+Evey Watson, 18032839
+Metal Gear Solid Demake -- Progress Log
+Week 1, 13/10/2021-20/10/2021
+
+**Tasks Completed**
+- Cameras/Guards detect the player when entering their field of vision
+- Field of vision angle, distance, and precision (number of Raycasts) may be adjusted via variables
+- Guards, if possessing a weapon, fire upon the player when sighted
+
+**Questions Raised**
+- What will further guard behaviours be?
+-- How much 'grace period' should they offer the player when first spotted?
+-- How far should they chase the player?
+-- Will they have a weaker peripheral and a stronger main vision cone?
+- Will guards follow the player between areas of a level?
+- How will the player kill guards without triggering an alarm? E.g. if they ran up to a guard, get spotted, and kill them quick?
+- Should other guards be alerted when one spots the player?

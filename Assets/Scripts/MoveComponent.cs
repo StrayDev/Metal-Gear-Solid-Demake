@@ -10,7 +10,7 @@ public class MoveComponent : MonoBehaviour
     private Rigidbody _rb = null;
     private Vector3 _direction = default;
     
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }
@@ -25,5 +25,6 @@ public class MoveComponent : MonoBehaviour
     {
         if (dir == Vector2.zero) return;
         _direction = dir; 
-        transform.forward = _direction;    }
+        transform.up = _direction;    
+    }
 }

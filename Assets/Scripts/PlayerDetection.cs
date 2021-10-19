@@ -90,7 +90,7 @@ public class PlayerDetection : MonoBehaviour
         {
             if (cooldownRemaining <= 0)
             {
-                GetComponent<FireBullet>().Fire(transform.position, (player.position - transform.position).normalized);
+                GetComponent<FireBullet>().Fire(transform.position, (player.position - transform.position).normalized,transform.position.z);
                 cooldownRemaining = shootCooldown;
             }
         }

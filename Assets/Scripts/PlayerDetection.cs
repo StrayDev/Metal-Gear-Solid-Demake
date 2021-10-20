@@ -21,26 +21,26 @@ public class PlayerDetection : MonoBehaviour
     private float maxViewDistance = 10f;
     [SerializeField]
     private int numberOfRaycasts = 10;
-    [SerializeField]
-    private float shootCooldown = 3f;
 
-    private float cooldownRemaining = 0f;
+    SimpleGuardBrain brain;
+    private void Start()
+    {
+        brain = GetComponent<SimpleGuardBrain>();
+    }
 
     private bool seenPlayer = false;
 
     // Update is called once per frame
     void Update()
     {
-        if (cooldownRemaining > 0) cooldownRemaining -= Time.deltaTime;
-
         Transform playerLocation = CheckObjectInSight();
         if (playerLocation != null)
         {
-            SeesPlayer(playerLocation);
+            brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.DIRECT);
         }
         else
         {
-            DoesNotSeePlayer();
+            brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.NONE);
         }
     }
 
@@ -81,12 +81,12 @@ public class PlayerDetection : MonoBehaviour
             float rayAngle = Mathf.Lerp(angleOfView, -angleOfView, t);
 
             //Vector2 dtv = DegreesToVector2(rayAngle);
-            Vector2 direction = RotateVectorByDegrees(transform.up, rayAngle);
+            Vector3 direction = RotateVectorByDegrees(transform.up, rayAngle);
 
             //Debug.DrawRay(transform.position, direction, Color.red);
 
             Gizmos.DrawRay(transform.position, transform.up);
-            Gizmos.DrawLine(transform.position, ((Vector2)transform.position + direction * maxViewDistance));
+            Gizmos.DrawLine(transform.position, (transform.position + direction * maxViewDistance));
         }
     }
 

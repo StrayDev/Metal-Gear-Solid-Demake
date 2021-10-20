@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour
         OptionCount,
     }
 
+    [SerializeField] private SoundController soundController = null;
+
     [SerializeField] private KeyCode upKeyCode = KeyCode.W;
     [SerializeField] private KeyCode downKeyCode = KeyCode.S;
     [SerializeField] private KeyCode selectKeyCode = KeyCode.Space;
@@ -23,28 +25,12 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TMP_Text startGameText = null;
     [SerializeField] private TMP_Text exitGameText = null;
 
-    private AudioSource audioSource = null;
-
     private FontStyles normalMenuTextFontStyle = FontStyles.Normal;
     private Color normalMenuTextColor = Color.white;
     private FontStyles selectedMenuTextFontStyle = FontStyles.Bold;
     private Color selectedMenuTextColor = new Color(0.8f, 0.1f, 0.1f);
 
     private EMenuOptions selectedOption;
-
-    private void PlaySoundClipOneShot(AudioClip clip)
-    {
-        // Check the audio source component is valid
-        if (audioSource)
-        {
-            // Check the clip is valid
-            if(clip)
-            {
-                // Play the clip one shot
-                audioSource.PlayOneShot(clip);
-            }
-        }
-    }
 
     private void SelectMenuText(TMP_Text text)
     {
@@ -122,9 +108,6 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Get the audio source component
-        audioSource = GetComponent<AudioSource>();
-
         // Start with start game selected
         SelectMenuOption(EMenuOptions.StartGame);
     }
@@ -136,7 +119,7 @@ public class MainMenu : MonoBehaviour
         if(Input.GetKeyDown(upKeyCode))
         {
             // Play the menu move sound
-            PlaySoundClipOneShot(moveAudioClip);
+            soundController.PlaySoundClipOneShot(moveAudioClip);
 
             // Scroll up through the menu
             selectedOption = (EMenuOptions)(((int)selectedOption + 1) % (int)EMenuOptions.OptionCount);
@@ -147,7 +130,7 @@ public class MainMenu : MonoBehaviour
         if (Input.GetKeyDown(downKeyCode))
         {
             // Play the menu move sound
-            PlaySoundClipOneShot(moveAudioClip);
+            soundController.PlaySoundClipOneShot(moveAudioClip);
 
             // Scroll down through the menu
             selectedOption = (EMenuOptions)Mathf.Abs((((int)selectedOption -1) % ((int)EMenuOptions.OptionCount)));
@@ -158,10 +141,10 @@ public class MainMenu : MonoBehaviour
         if (Input.GetKeyDown(selectKeyCode))
         {
             // Play the menu select sound
-            PlaySoundClipOneShot(selectAudioClip);
+            soundController.PlaySoundClipOneShot(selectAudioClip);
 
             // Select the menu option
-            switch(selectedOption)
+            switch (selectedOption)
             {
                 case EMenuOptions.StartGame: StartGameSelected(); break;
                 case EMenuOptions.ExitGame: ExitGameSelected(); break;

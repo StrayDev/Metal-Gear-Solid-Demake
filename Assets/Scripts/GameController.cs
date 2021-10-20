@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
 
     public ItemPool bulletPool;
+    public int playerDetectedCount = 0;
 
     private void Awake()
     {

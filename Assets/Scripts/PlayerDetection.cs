@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class PlayerDetection : MonoBehaviour
 {
+    [SerializeField] 
+    private UnityEvent onPlayerDetected = default;
+
+
     [SerializeField]
     private float angleOfView = 25f;
     [SerializeField]
@@ -15,6 +20,8 @@ public class PlayerDetection : MonoBehaviour
     private float shootCooldown = 3f;
 
     private float cooldownRemaining = 0f;
+
+    private bool seenPlayer = false;
 
     // Update is called once per frame
     void Update()
@@ -85,6 +92,13 @@ public class PlayerDetection : MonoBehaviour
 
     private void SeesPlayer(Transform player)
     {
+        // Call player detected events if this is the first time the player is detected since the guard lost sight
+        if(!seenPlayer)
+        {
+            onPlayerDetected?.Invoke();
+            seenPlayer = true;
+        }
+
         GetComponentInChildren<Renderer>().material.color = Color.red;
         if (GetComponent<FireBullet>())
         {
@@ -99,5 +113,7 @@ public class PlayerDetection : MonoBehaviour
     private void DoesNotSeePlayer()
     {
         GetComponentInChildren<Renderer>().material.color = Color.green;
+
+        seenPlayer = false;
     }
 }

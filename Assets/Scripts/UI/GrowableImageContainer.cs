@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GrowableImageContainer : MonoBehaviour
@@ -42,6 +43,29 @@ public class GrowableImageContainer : MonoBehaviour
     {
         // Create an image
         return CreateImage(gameObject.GetComponent<RectTransform>());
+    }
+
+    public Image GetImageAt(int index)
+    {
+        return images[index].GetComponent<Image>();
+    }
+
+    public void SetAllImagesTo(Sprite sprite)
+    {
+        for(int i = 0; i < images.Count; ++i)
+        {
+            images[i].GetComponent<Image>().sprite = sprite;
+        }
+    }
+
+    public void SetImageTo(Sprite sprite, int imageIndex)
+    {
+        images[imageIndex].GetComponent<Image>().sprite = sprite;
+    }
+
+    public int GetImageCount()
+    {
+        return images.Count;
     }
 
     // Start is called before the first frame update

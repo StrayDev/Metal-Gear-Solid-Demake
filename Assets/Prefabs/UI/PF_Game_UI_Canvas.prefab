@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryGrowableImageContainer: {fileID: 7725305679043638576}
+  keycardTexture: {fileID: 21300000, guid: e52f4c7ef405b1140928410bfeec4c22, type: 3}
 --- !u!1001 &4191379526265822113
 PrefabInstance:
   m_ObjectHideFlags: 0

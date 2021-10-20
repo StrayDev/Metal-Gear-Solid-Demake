@@ -72,10 +72,10 @@
     <Compile Include="Assets\Scripts\SoundController.cs" />
     <Compile Include="Assets\Luke\Scripts\DoorScript.cs" />
     <Compile Include="Assets\Luke\Scripts\SimpleGuardBrain.cs" />
+    <Compile Include="Assets\Scripts\UI\InGameUI.cs" />
     <Compile Include="Assets\Scripts\PostProcessing.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\FireBullet.cs" />
-    <Compile Include="Assets\Scripts\UI\InGameUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

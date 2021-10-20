@@ -7,6 +7,8 @@ public class InGameUI : MonoBehaviour
 {
     [SerializeField] private GrowableImageContainer inventoryGrowableImageContainer = null;
 
+    [SerializeField] private Sprite keycardTexture = null;
+
     public void OnKeycardPickedUp(KeycardScript keycard)
     {
         // Check the inventory image container has been set
@@ -18,19 +20,27 @@ public class InGameUI : MonoBehaviour
             // Get the image component from the image
             var image = imageObject.GetComponent<Image>();
 
+            // Check a keycard texture has been set
+            if(!keycardTexture)
+            {
+                Debug.LogError("A keycard texture has not been set on the InGameUI instance");
+                return;
+            }
+
+            // Set the texture of the image to the neutral keycard texture
+            image.sprite = keycardTexture;
+
             // Check the image is valid
             if (image)
             {
-                // Set the image to the color of the keycard
+                // Set the image color to the color of the keycard
                 switch(keycard.GetKeycardColor())
                 {
                     case KeycardScript.KeycardColor.Blue: image.color = Color.blue; break;
-                    case KeycardScript.KeycardColor.Orange: image.color = new Color(255, 165, 0); break;
+                    case KeycardScript.KeycardColor.Orange: image.color = new Color(0.255f * 6.0f, 0.165f * 6.0f, 0.0f); break;
                 }
             }
         }
-
-        Debug.Log("Picked up a keycard" + keycard.GetKeycardColor());
     }
 
     // Start is called before the first frame update

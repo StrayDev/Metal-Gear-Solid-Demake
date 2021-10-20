@@ -22,14 +22,52 @@ public class GrowableImageContainer : MonoBehaviour
 
     private List<GameObject> images = new List<GameObject>();
 
-    private void CreateImage(RectTransform containerRectTransform)
+    public void RemoveImage()
+    {
+        // Check if there is at least 1 image remaining
+        if(images.Count > 0)
+        {
+            // Get the last image in the list
+            var image = images[images.Count - 1];
+
+            // Destroy the retrieved image
+            Destroy(image);
+
+            // Remove the image from the images list
+            images.RemoveAt(images.Count - 1);
+        }
+    }
+
+    public GameObject AddImage()
+    {
+        // Create an image
+        return CreateImage(gameObject.GetComponent<RectTransform>());
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        // Add image up to the entered initial count
+        for(int i = 0; i < initialImageCount; ++i)
+        {
+            AddImage();
+        }
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        
+    }
+
+    private GameObject CreateImage(RectTransform containerRectTransform)
     {
         // Check a ui image prefab has been set in the editor
         if (!uiImagePrefab)
         {
             // Log error
             Debug.LogError("An UI image prefab has not been set");
-            return;
+            return null;
         }
 
         // Spawn a new ui image prefab instance parented to the container
@@ -42,14 +80,14 @@ public class GrowableImageContainer : MonoBehaviour
         if (!imageRectTransform)
         {
             Debug.LogError("The set ui image prefab does not contain a rect transform component");
-            return;
+            return null;
         }
 
         // Set the width and height of the image rect transform
         imageRectTransform.sizeDelta = imageDimensions;
 
         // Switch on the grow direction to correctly position the new image
-        switch(direction)
+        switch (direction)
         {
             case EDirection.Horizontal:
                 // Position the image horizontally
@@ -74,43 +112,8 @@ public class GrowableImageContainer : MonoBehaviour
 
         // Add the image to the list of ammo images
         images.Add(image);
-    }
 
-    public void RemoveImage()
-    {
-        // Check if there is at least 1 image remaining
-        if(images.Count > 0)
-        {
-            // Get the last image in the list
-            var image = images[images.Count - 1];
-
-            // Destroy the retrieved image
-            Destroy(image);
-
-            // Remove the image from the images list
-            images.RemoveAt(images.Count - 1);
-        }
-    }
-
-    public void AddImage()
-    {
-        // Create an ammo image
-        CreateImage(gameObject.GetComponent<RectTransform>() as RectTransform);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Add image up to the entered initial count
-        for(int i = 0; i < initialImageCount; ++i)
-        {
-            AddImage();
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Return the new image
+        return image;
     }
 }

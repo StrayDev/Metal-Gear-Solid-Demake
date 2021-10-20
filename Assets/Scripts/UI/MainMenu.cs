@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -65,10 +66,16 @@ public class MainMenu : MonoBehaviour
     private void StartGameSelected()
     {
         Debug.Log("Start game selected");
+        SceneManager.LoadScene(1); //jump into first level
     }
 
     private void ExitGameSelected()
     {
+        #if UNITY_EDITOR 
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else 
+            Application.Quit();
+        #endif
         Debug.Log("Exit game selected");
     }
 

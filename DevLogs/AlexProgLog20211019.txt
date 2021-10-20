@@ -1,0 +1,12 @@
+--------------------------------------------------------------------------
+Wai Yiu Alex Wong, 19021430	
+Metal Gear Demake
+Week 1, 19/10/21
+**Tasks completed**
+- Initiated Repository and Project Page
+- Managed Git Workflow making sure it's as smooth as it can be when people pushed and merge things.
+- Constructed Art as requested, including UI and Player arts.
+
+**Questions raised**
+- N/A
+--------------------------------------------------------------------------

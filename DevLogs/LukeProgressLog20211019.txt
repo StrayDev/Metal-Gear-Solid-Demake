@@ -1,0 +1,46 @@
+-----------------------------------------------------------------------------------
+Luke Eyre, 18021178
+Metal Gear Demake
+Week 1, 19/10/21
+
+**Tasks completed**
++ Added the start of one of the classic mgs1 maps in a prefab. (LevelBase) 
++ Added some basic temporary mats to make it easier to tell things apart.
+
+My main focus within this project is level design. This means the creation of levels, features, and tools that pertain to levels, and the aggregation of other team members features.
+
+I was shown some of the maps from the original Metal Gear games and I wanted to create something similar using unitys primitive shapes. 
+Using some basic shapes, unity's snapping tools, and some materials I blocked it out, I made a map that was similar but found during the process that some of its elements (specifically the way that mgs1 handled combat) would be tricky to port as we did not plan to implement them so instead I made some small changes to make it more fun for players with what I had. 
+
++ Added doors and keycards.
++ Added build a camera system to follow the player.
++ Added a second room to the level.
+
+Doors and keycards will be a core feature within the levels as they gate progression and add objectives. Levels must be designed with routes in mind to acquire the keycards, some avoiding detection from guards completely.
+
+The current implementation allows for players to acquire keys from the floor and open doors with the interact button only if the corresponding keycard required to unlock it has been collected. 
+
+The current level has two doors, opening the last one is the current way to 'win' the game, sending you back to the main menu.
+
+In order to navigate the level, I made a camera system using cinemachine controllers and constraints. This tracks the character in a way that moves only when it needs too and will also hide elements of the map until we want to show them. For example, players cannot see off the edge of the world or into rooms they have not yet got access too. 
+
++ Added the level to the ingamescene. 
++ Hooked in main menu to game
++ Added levels to the scene manager
+
+The level and almost all of its inner workings sit within a level prefab, this is primarily to avoid merge conflicts through encapsulation. 
+This meant that when it did come to setting up the game/menu scene it was quite simple. I just needed to plug the level prefab into the pre-existing content.
+
++ Added the ability to give guards patrols using a dynamic node system.
+
+I quite like the guards that the team have made, but the problem I had was that as they did not move the levels were very simple to solve, once you found the safe route it became trivial to solve. I instead created a quick system that uses a single coroutine to control guards’ patrols. It works by placing simple nodes on the map. These nodes are nothing more than empty game objects with gizmos so they can be easily seen. Then the script that contains the system takes all of those nodes as a list, with the first node in the list being the start of the petrol order and the last being the last. Each node have a list of actions associated with them. These actions include rotating, doing nothing, and pausing for certain amounts of time. A guard will move to the starting node. Once it reaches that node it will execute all its actions. Once they are done it will move to the next node. Once it has completed the actions of the final node in the list it will do the routine in reverse order until it flips again at 0.
+
+~ Fixed bug that caused bullets to spawn with a z value of 0 instead of the z value of the guard firing.
+~ Fixed bug with directions that offset guard detection cones incorrectly. 
+
+The game now has a basic loop, although no failure condition has been added yet. Opening second door will send the player back to the main menu.
+
+**Questions raised**
+
+"Why is this movement component not working?"
+I was checking to see if things were moving in the scene view after pressing play with a prefab open. The movement component worked; I was just looking at a static prefab rather than the live scene.

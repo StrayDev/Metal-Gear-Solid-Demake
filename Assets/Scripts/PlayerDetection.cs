@@ -8,7 +8,12 @@ public class PlayerDetection : MonoBehaviour
 {
     [SerializeField] 
     private UnityEvent onPlayerDetected = default;
-
+    [SerializeField]
+    private GameObject detectedWorldSpaceUI = null;
+    [SerializeField]
+    private SoundController soundController = null;
+    [SerializeField]
+    private AudioClip detectedAudioClip = null;
 
     [SerializeField]
     private float angleOfView = 25f;
@@ -97,6 +102,17 @@ public class PlayerDetection : MonoBehaviour
         {
             // Increment the number of times the player is detected
             GameController.Instance.playerDetectedCount += 1;
+
+            // Spawn detected ui
+            var ui = Instantiate(detectedWorldSpaceUI);
+            var wsUI = ui.GetComponent<DetectedExclamationUI>();
+            if(wsUI)
+            {
+                wsUI.SetOwner(this.gameObject);
+            }
+
+            // Play detected sound
+            soundController.PlaySoundClipOneShot(detectedAudioClip);
 
             // Call bound onPlayerDetected events
             onPlayerDetected?.Invoke();

@@ -95,7 +95,13 @@ public class PlayerDetection : MonoBehaviour
         // Call player detected events if this is the first time the player is detected since the guard lost sight
         if(!seenPlayer)
         {
+            // Increment the number of times the player is detected
+            GameController.Instance.playerDetectedCount += 1;
+
+            // Call bound onPlayerDetected events
             onPlayerDetected?.Invoke();
+
+            // Flag player is currently seen by the guard
             seenPlayer = true;
         }
 
@@ -114,6 +120,7 @@ public class PlayerDetection : MonoBehaviour
     {
         GetComponentInChildren<Renderer>().material.color = Color.green;
 
+        // Flag player is no longer seen by the guard
         seenPlayer = false;
     }
 }

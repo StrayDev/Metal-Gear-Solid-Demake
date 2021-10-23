@@ -118,7 +118,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryGrowableImageContainer: {fileID: 7725305679043638576}
   alarmsGrowableImageContainer: {fileID: 5571837567752178072}
+  snakeFaceImage: {fileID: 8649091370668405835}
   alarmSpritesheet: {fileID: 2800000, guid: 6e754e77b0abb294994b18ef7cc7a45b, type: 3}
+  snakeFacesSpritesheet: {fileID: 0}
   keycardTexture: {fileID: 21300000, guid: e52f4c7ef405b1140928410bfeec4c22, type: 3}
 --- !u!1001 &4191379526265822113
 PrefabInstance:
@@ -197,7 +199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8609160410968719123, guid: 68adfaaa6f6db484a8e14b96e42033a7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -8.411
+      value: -35.8
       objectReference: {fileID: 0}
     - target: {fileID: 8609160410968719123, guid: 68adfaaa6f6db484a8e14b96e42033a7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -332,7 +334,7 @@ PrefabInstance:
     - target: {fileID: 3842866230223346126, guid: 84018f250f9ac9940994681877887f44, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2753777085628030988, guid: 3a166a0c5003729459a9d0009ea6434a, type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84018f250f9ac9940994681877887f44, type: 3}
 --- !u!224 &8649091370668405940 stripped
@@ -340,6 +342,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3842866230223345969, guid: 84018f250f9ac9940994681877887f44, type: 3}
   m_PrefabInstance: {fileID: 5571837566767377797}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8649091370668405835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3842866230223346126, guid: 84018f250f9ac9940994681877887f44, type: 3}
+  m_PrefabInstance: {fileID: 5571837566767377797}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5918429261474173095
 PrefabInstance:
   m_ObjectHideFlags: 0

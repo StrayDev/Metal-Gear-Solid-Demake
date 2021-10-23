@@ -704,7 +704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5571837567479719090, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -61.21
+      value: -58.79
       objectReference: {fileID: 0}
     - target: {fileID: 5571837567479719090, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -730,6 +730,10 @@ PrefabInstance:
       propertyPath: gameController
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5776719649417862791, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+      propertyPath: snakeFacesSpritesheet
+      value: 
+      objectReference: {fileID: 2800000, guid: 3a166a0c5003729459a9d0009ea6434a, type: 3}
     - target: {fileID: 7725305679043638579, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 126.899994

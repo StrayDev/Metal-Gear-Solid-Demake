@@ -16,7 +16,8 @@ public class SimpleGuardBrain : MonoBehaviour
     {
         PATROL = 0,
         COMBAT = 1,
-        SEARCH = 2
+        SEARCH = 2,
+        SPOTTED = 3,
     };
 
     // Start is called before the first frame update
@@ -26,13 +27,24 @@ public class SimpleGuardBrain : MonoBehaviour
     private GuardState currentState;
     private PlayerVisibility currentVisibility;
     private PlayerController player;
+    private Rigidbody playerRb;
 
     private Coroutine patrolRoutine;
 
+    private Vector3 lastSeenPlayerPos;
+    private Vector2 lastSeenPlayerVelocity;
+
+    [SerializeField]
+    private float surprisedTime = 1f;
+    private float surprisedWait = 0f;
 
     [SerializeField]
     private float searchTime = 10f;
     private float searchCooldown = 0f;
+
+    [SerializeField]
+    private float dismissTime = 3f;
+    private float dismissWait = 0f;
 
     [SerializeField] private bool enable_debug_messages = false;
     [SerializeField] private List<GuardNode> nodes;
@@ -58,15 +70,19 @@ public class SimpleGuardBrain : MonoBehaviour
 
     private void Update()
     {
-        if(player == null) player = FindObjectOfType<PlayerController>();
+        if(player == null)
+        {
+            player = FindObjectOfType<PlayerController>();
+            playerRb = player.GetComponent<Rigidbody>();
+        }
 
         switch (currentState)
         {
             case GuardState.PATROL:
                 {
-                    if(currentVisibility == PlayerVisibility.DIRECT)
+                    if(currentVisibility > 0)
                     {
-                        EngageCombat();
+                        SpotPlayer();
                     }
                     break;
                 }
@@ -77,9 +93,13 @@ public class SimpleGuardBrain : MonoBehaviour
                     if(currentVisibility == PlayerVisibility.NONE)
                     {
                         StartSearch();
+                        break;
                     }
-                    
-                    // Are we aiming at the player? If so, shoot
+
+                    lastSeenPlayerPos = player.transform.position;
+                    lastSeenPlayerVelocity = playerRb.velocity;
+
+                    // Are we aiming at the player?
                     Vector3 direction = (player.transform.position - transform.position);
                     bool seePlayer = false;
                     RaycastHit[] hits;
@@ -97,7 +117,7 @@ public class SimpleGuardBrain : MonoBehaviour
 
                     if (seePlayer)
                     {
-                        // If we can see the player, shoot at them!
+                        // If we are looking directly at the player, shoot at them!
                         FireBullet fireBullet;
                         if ((fireBullet = GetComponent<FireBullet>()) != null)
                         {
@@ -107,31 +127,94 @@ public class SimpleGuardBrain : MonoBehaviour
                     // Otherwise we need to turn towards them
                     else
                     {
-                        Vector2 targetDirection = (Vector2)player.transform.position - (Vector2)guard_pos.position;
-                        float singleStep = 5f * Time.deltaTime;
-                        Vector2 newDirection = Vector3.RotateTowards(transform.up, targetDirection, singleStep, 0.0f);
-                        transform.rotation = Quaternion.LookRotation(transform.forward, newDirection);
+                        TurnToFacePlayer(5f);
                     }
                     break;
                 }
             case GuardState.SEARCH:
                 {
+                    if((int)currentVisibility > 0)
+                    {
+                        lastSeenPlayerPos = player.transform.position;
+                        lastSeenPlayerVelocity = playerRb.velocity;
+                        EngageCombat();
+                        break;
+                    }
+                    if (Vector3.Distance(lastSeenPlayerPos, guard_pos.position) > 0.5f)
+                    {
+                        guard_movement_comp.Move(lastSeenPlayerPos - transform.position, 2f);
+                    }
+                    else
+                    {
+                        guard_movement_comp.Move(Vector2.zero);
+                        guard_movement_comp.Direction(lastSeenPlayerVelocity);
+                    }
                     if((searchCooldown -= Time.deltaTime) <= 0f)
                     {
                         ResumePatrol();
                     }
                     break;
                 }
+            case GuardState.SPOTTED:
+            {
+                if(currentVisibility > 0)
+                {
+                    lastSeenPlayerPos = player.transform.position;
+                    lastSeenPlayerVelocity = playerRb.velocity;
+                    dismissWait = dismissTime;
+                    TurnToFacePlayer(1f);
+                }
+                switch(currentVisibility)
+                {
+                    case PlayerVisibility.NONE:
+                        {
+                            guard_movement_comp.Move(Vector2.zero);
+                            if ((dismissWait -= Time.deltaTime) <= 0f)
+                            {
+                                ResumePatrol();
+                            }
+                            break;
+                        }
+                    case PlayerVisibility.PERIPHERAL:
+                        {
+                            guard_movement_comp.Move(lastSeenPlayerPos - transform.position, 0.6f);
+                            if ((surprisedWait -= Time.deltaTime) <= 0f)
+                            {
+                                EngageCombat();
+                            }
+                            break;
+                        }
+                    case PlayerVisibility.DIRECT:
+                        {
+                            EngageCombat();
+                            break;
+                        }
+                }
+                break;
+            }
         }
+    }
+
+    public void SpotPlayer()
+    {
+        if (currentState == GuardState.SPOTTED) return;
+        lastSeenPlayerPos = player.transform.position;
+        lastSeenPlayerVelocity = playerRb.velocity;
+        currentState = GuardState.SPOTTED;
+        if (patrolRoutine != null)
+        {
+            StopCoroutine(patrolRoutine);
+            guard_movement_comp.Move(Vector2.zero);
+            patrolRoutine = null;
+        }
+        surprisedWait = surprisedTime;
     }
 
     public void EngageCombat()
     {
         if (currentState == GuardState.COMBAT) return;
         currentState = GuardState.COMBAT;
-        StopCoroutine(patrolRoutine);
         guard_movement_comp.Move(Vector2.zero);
-        patrolRoutine = null;
     }
 
     public void ResumePatrol()
@@ -146,7 +229,15 @@ public class SimpleGuardBrain : MonoBehaviour
         searchCooldown = searchTime;
     }
 
-    public bool atNextNodePosition(Vector3 _node, Vector3 _guard_pos) => (Vector3.Distance(_node,_guard_pos) < 0.01);
+    private void TurnToFacePlayer(float turnSpeed)
+    {
+        Vector2 targetDirection = (Vector2)player.transform.position - (Vector2)guard_pos.position;
+        float singleStep = turnSpeed * Time.deltaTime;
+        Vector2 newDirection = Vector3.RotateTowards(transform.up, targetDirection, singleStep, 0.0f);
+        transform.rotation = Quaternion.LookRotation(transform.forward, newDirection);
+    }
+
+    public bool atNextNodePosition(Vector3 _node, Vector3 _guard_pos) => (Vector3.Distance(_node,_guard_pos) < 0.1f);
 
     IEnumerator processNodes() {
         bool active = true;

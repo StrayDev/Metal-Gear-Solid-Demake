@@ -16,16 +16,27 @@ public class PlayerDetection : MonoBehaviour
     private AudioClip detectedAudioClip = null;
 
     [SerializeField]
-    private float angleOfView = 25f;
+    private float peripheralAngleOfView = 25f;
     [SerializeField]
-    private float maxViewDistance = 10f;
+    private float directAngleOfView = 5f;
     [SerializeField]
-    private int numberOfRaycasts = 10;
+    private float normalViewDistance = 10f;
+
+    [SerializeField]
+    private int peripheralNumberOfRaycasts = 10;
+    [SerializeField]
+    private int directNumberOfRaycasts = 20;
+
+    private float alertViewDistance;
+    private float maxViewDistance;
 
     SimpleGuardBrain brain;
     private void Start()
     {
         brain = GetComponent<SimpleGuardBrain>();
+        maxViewDistance = normalViewDistance;
+        alertViewDistance = normalViewDistance * 1.5f;
+        soundController = FindObjectOfType<SoundController>();
     }
 
     private bool seenPlayer = false;
@@ -33,29 +44,47 @@ public class PlayerDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Transform playerLocation = CheckObjectInSight();
+        Transform playerLocation = CheckObjectInDirectSight();
         if (playerLocation != null)
         {
-            brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.DIRECT);
+            SeesPlayer();
         }
         else
         {
-            brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.NONE);
+            playerLocation = CheckObjectInPeripheralSight();
+            if(playerLocation != null)
+            {
+                PlayerSlightlyVisible();
+            }
+            else
+            {
+                DoesNotSeePlayer();
+            }
         }
     }
 
-    Transform CheckObjectInSight()
+    Transform CheckObjectInPeripheralSight()
+    {
+        return RaycastVisionCone(peripheralAngleOfView, maxViewDistance, peripheralNumberOfRaycasts);
+    }
+
+    Transform CheckObjectInDirectSight()
+    {
+        return RaycastVisionCone(directAngleOfView, maxViewDistance / 2f, directNumberOfRaycasts);
+    }
+
+    Transform RaycastVisionCone(float angle, float distance, int raycastNumber)
     {
         RaycastHit hit = new RaycastHit();
-        for (int i=0; i <= numberOfRaycasts; ++i)
+        for (int i = 0; i <= raycastNumber; ++i)
         {
-            float t = (float)i / (float)numberOfRaycasts;
-            float rayAngle = Mathf.Lerp(angleOfView, -angleOfView, t);
+            float t = (float)i / (float)raycastNumber;
+            float rayAngle = Mathf.Lerp(angle, -angle, t);
 
             //Vector2 dtv = DegreesToVector2(rayAngle);
             Vector3 direction = RotateVectorByDegrees(transform.up, rayAngle);
 
-            Physics.Raycast(transform.position, direction, out hit, maxViewDistance, ~(1 << 2));
+            Physics.Raycast(transform.position, direction, out hit, distance, ~(1 << 2));
             if (hit.collider != null && IsPlayer(hit.collider.gameObject))
             {
                 return hit.collider.transform;
@@ -75,10 +104,11 @@ public class PlayerDetection : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        for (int i = 0; i <= numberOfRaycasts; ++i)
+        Gizmos.color = Color.yellow;
+        for (int i = 0; i <= peripheralNumberOfRaycasts; ++i)
         {
-            float t = (float)i / (float)numberOfRaycasts;
-            float rayAngle = Mathf.Lerp(angleOfView, -angleOfView, t);
+            float t = (float)i / (float)peripheralNumberOfRaycasts;
+            float rayAngle = Mathf.Lerp(peripheralAngleOfView, -peripheralAngleOfView, t);
 
             //Vector2 dtv = DegreesToVector2(rayAngle);
             Vector3 direction = RotateVectorByDegrees(transform.up, rayAngle);
@@ -88,6 +118,20 @@ public class PlayerDetection : MonoBehaviour
             Gizmos.DrawRay(transform.position, transform.up);
             Gizmos.DrawLine(transform.position, (transform.position + direction * maxViewDistance));
         }
+        Gizmos.color = Color.red;
+        for (int i = 0; i <= directNumberOfRaycasts; ++i)
+        {
+            float t = (float)i / (float)directNumberOfRaycasts;
+            float rayAngle = Mathf.Lerp(directAngleOfView, -directAngleOfView, t);
+
+            //Vector2 dtv = DegreesToVector2(rayAngle);
+            Vector3 direction = RotateVectorByDegrees(transform.up, rayAngle);
+
+            //Debug.DrawRay(transform.position, direction, Color.red);
+
+            Gizmos.DrawRay(transform.position, transform.up);
+            Gizmos.DrawLine(transform.position, (transform.position + direction * maxViewDistance/2));
+        }
     }
 
     private bool IsPlayer(GameObject other)
@@ -95,7 +139,7 @@ public class PlayerDetection : MonoBehaviour
         return other != null && other.GetComponentInParent<PlayerController>();
     }
 
-    private void SeesPlayer(Transform player)
+    private void SeesPlayer()
     {
         // Call player detected events if this is the first time the player is detected since the guard lost sight
         if(!seenPlayer)
@@ -121,22 +165,26 @@ public class PlayerDetection : MonoBehaviour
             seenPlayer = true;
         }
 
+        maxViewDistance = alertViewDistance;
+
         GetComponentInChildren<Renderer>().material.color = Color.red;
-        if (GetComponent<FireBullet>())
-        {
-            if (cooldownRemaining <= 0)
-            {
-                GetComponent<FireBullet>().Fire(transform.position, (player.position - transform.position).normalized,transform.position.z);
-                cooldownRemaining = shootCooldown;
-            }
-        }
+        brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.DIRECT);
     }
 
     private void DoesNotSeePlayer()
     {
-        GetComponentInChildren<Renderer>().material.color = Color.green;
+        maxViewDistance = normalViewDistance;
 
-        // Flag player is no longer seen by the guard
+        GetComponentInChildren<Renderer>().material.color = Color.green;
+        brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.NONE);
+        seenPlayer = false;
+    }
+
+    private void PlayerSlightlyVisible()
+    {
+        maxViewDistance = alertViewDistance;
+        GetComponentInChildren<Renderer>().material.color = Color.yellow;
+        brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.PERIPHERAL);
         seenPlayer = false;
     }
 }

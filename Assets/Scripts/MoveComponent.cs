@@ -14,11 +14,11 @@ public class MoveComponent : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
     }
-    
-    public void Move(Vector2 move)
+
+    public void Move(Vector2 move, float moveMultiplier = 1f)
     {
         _direction = new Vector3(move.x, move.y, 0F);
-        _rb.velocity = _direction.normalized * moveSpeed;
+        _rb.velocity = _direction.normalized * moveSpeed * moveMultiplier;
     }
 
     public void Direction(Vector2 dir)

@@ -5,10 +5,46 @@ using System;
 
 public class SimpleGuardBrain : MonoBehaviour
 {
+    public enum PlayerVisibility
+    {
+        NONE = 0,
+        DIRECT = 1,
+        PERIPHERAL = 2
+    }
+
+    public enum GuardState
+    {
+        PATROL = 0,
+        COMBAT = 1,
+        SEARCH = 2,
+        SPOTTED = 3,
+    };
+
     // Start is called before the first frame update
     private int current_node_position = 0;
     private Transform guard_pos;
     private MoveComponent guard_movement_comp;
+    private GuardState currentState;
+    private PlayerVisibility currentVisibility;
+    private PlayerController player;
+    private Rigidbody playerRb;
+
+    private Coroutine patrolRoutine;
+
+    private Vector3 lastSeenPlayerPos;
+    private Vector2 lastSeenPlayerVelocity;
+
+    [SerializeField]
+    private float surprisedTime = 1f;
+    private float surprisedWait = 0f;
+
+    [SerializeField]
+    private float searchTime = 10f;
+    private float searchCooldown = 0f;
+
+    [SerializeField]
+    private float dismissTime = 3f;
+    private float dismissWait = 0f;
 
     [SerializeField] private bool enable_debug_messages = false;
     [SerializeField] private List<GuardNode> nodes;
@@ -17,11 +53,191 @@ public class SimpleGuardBrain : MonoBehaviour
         guard_pos = GetComponent<Transform>();
     }
     void Start()
-    {
-        StartCoroutine("processNodes");
+    { 
+        patrolRoutine = StartCoroutine("processNodes");
+    
     }
 
-    public bool atNextNodePosition(Vector3 _node, Vector3 _guard_pos) => (Vector3.Distance(_node,_guard_pos) < 0.01);
+    public PlayerVisibility GetVisibility()
+    {
+        return currentVisibility;
+    }
+
+    public void SetPlayerVision(PlayerVisibility visibility)
+    {
+        currentVisibility = visibility;
+    }
+
+    private void Update()
+    {
+        if(player == null)
+        {
+            player = FindObjectOfType<PlayerController>();
+            playerRb = player.GetComponent<Rigidbody>();
+        }
+
+        switch (currentState)
+        {
+            case GuardState.PATROL:
+                {
+                    if(currentVisibility > 0)
+                    {
+                        SpotPlayer();
+                    }
+                    break;
+                }
+            case GuardState.COMBAT:
+                {
+
+                    // Can we see the player still? If not we need to look for them
+                    if(currentVisibility == PlayerVisibility.NONE)
+                    {
+                        StartSearch();
+                        break;
+                    }
+
+                    lastSeenPlayerPos = player.transform.position;
+                    lastSeenPlayerVelocity = playerRb.velocity;
+
+                    // Are we aiming at the player?
+                    Vector3 direction = (player.transform.position - transform.position);
+                    bool seePlayer = false;
+                    RaycastHit[] hits;
+                    if ((hits = Physics.RaycastAll(transform.position, transform.up)).Length > 0)
+                    {
+                        foreach (RaycastHit hit in hits)
+                        {
+                            if(hit.collider.GetComponentInParent<PlayerController>())
+                            {
+                                seePlayer = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (seePlayer)
+                    {
+                        // If we are looking directly at the player, shoot at them!
+                        FireBullet fireBullet;
+                        if ((fireBullet = GetComponent<FireBullet>()) != null)
+                        {
+                            fireBullet.Fire(transform.position, (player.transform.position - transform.position), transform.position.z);
+                        }
+                    }
+                    // Otherwise we need to turn towards them
+                    else
+                    {
+                        TurnToFacePlayer(5f);
+                    }
+                    break;
+                }
+            case GuardState.SEARCH:
+                {
+                    if((int)currentVisibility > 0)
+                    {
+                        lastSeenPlayerPos = player.transform.position;
+                        lastSeenPlayerVelocity = playerRb.velocity;
+                        EngageCombat();
+                        break;
+                    }
+                    if (Vector3.Distance(lastSeenPlayerPos, guard_pos.position) > 0.5f)
+                    {
+                        guard_movement_comp.Move(lastSeenPlayerPos - transform.position, 2f);
+                    }
+                    else
+                    {
+                        guard_movement_comp.Move(Vector2.zero);
+                        guard_movement_comp.Direction(lastSeenPlayerVelocity);
+                    }
+                    if((searchCooldown -= Time.deltaTime) <= 0f)
+                    {
+                        ResumePatrol();
+                    }
+                    break;
+                }
+            case GuardState.SPOTTED:
+            {
+                if(currentVisibility > 0)
+                {
+                    lastSeenPlayerPos = player.transform.position;
+                    lastSeenPlayerVelocity = playerRb.velocity;
+                    dismissWait = dismissTime;
+                    TurnToFacePlayer(1f);
+                }
+                switch(currentVisibility)
+                {
+                    case PlayerVisibility.NONE:
+                        {
+                            guard_movement_comp.Move(Vector2.zero);
+                            if ((dismissWait -= Time.deltaTime) <= 0f)
+                            {
+                                ResumePatrol();
+                            }
+                            break;
+                        }
+                    case PlayerVisibility.PERIPHERAL:
+                        {
+                            guard_movement_comp.Move(lastSeenPlayerPos - transform.position, 0.6f);
+                            if ((surprisedWait -= Time.deltaTime) <= 0f)
+                            {
+                                EngageCombat();
+                            }
+                            break;
+                        }
+                    case PlayerVisibility.DIRECT:
+                        {
+                            EngageCombat();
+                            break;
+                        }
+                }
+                break;
+            }
+        }
+    }
+
+    public void SpotPlayer()
+    {
+        if (currentState == GuardState.SPOTTED) return;
+        lastSeenPlayerPos = player.transform.position;
+        lastSeenPlayerVelocity = playerRb.velocity;
+        currentState = GuardState.SPOTTED;
+        if (patrolRoutine != null)
+        {
+            StopCoroutine(patrolRoutine);
+            guard_movement_comp.Move(Vector2.zero);
+            patrolRoutine = null;
+        }
+        surprisedWait = surprisedTime;
+    }
+
+    public void EngageCombat()
+    {
+        if (currentState == GuardState.COMBAT) return;
+        currentState = GuardState.COMBAT;
+        guard_movement_comp.Move(Vector2.zero);
+    }
+
+    public void ResumePatrol()
+    {
+        currentState = GuardState.PATROL;
+        patrolRoutine = StartCoroutine(processNodes());
+    }
+
+    public void StartSearch()
+    {
+        currentState = GuardState.SEARCH;
+        searchCooldown = searchTime;
+    }
+
+    private void TurnToFacePlayer(float turnSpeed)
+    {
+        Vector2 targetDirection = (Vector2)player.transform.position - (Vector2)guard_pos.position;
+        float singleStep = turnSpeed * Time.deltaTime;
+        Vector2 newDirection = Vector3.RotateTowards(transform.up, targetDirection, singleStep, 0.0f);
+        transform.rotation = Quaternion.LookRotation(transform.forward, newDirection);
+    }
+
+    public bool atNextNodePosition(Vector3 _node, Vector3 _guard_pos) => (Vector3.Distance(_node,_guard_pos) < 0.1f);
 
     IEnumerator processNodes() {
         bool active = true;

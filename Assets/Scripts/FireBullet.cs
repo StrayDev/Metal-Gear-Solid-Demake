@@ -9,6 +9,11 @@ public class FireBullet : MonoBehaviour
 
     private ItemPool bulletPool;
     // Start is called before the first frame update
+    [SerializeField]
+    private float shootCooldown = 3f;
+
+    private float shootCooldownRemaining = 0f;
+
     void Start()
     {
         if(GameController.Instance == null)
@@ -23,8 +28,17 @@ public class FireBullet : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(shootCooldownRemaining > 0f)
+        {
+            shootCooldownRemaining -= Time.deltaTime;
+        }
+    }
+
     public void Fire(Vector2 origin, Vector2 direction, float pz)
     {
+        if (shootCooldownRemaining > 0f) return;
         GameObject bullet;
         if(bulletPool == null)
         {
@@ -39,6 +53,8 @@ public class FireBullet : MonoBehaviour
 
         bullet.GetComponent<Bullet>().ResetBullet();
         bullet.SetActive(true);
+
+        shootCooldownRemaining = shootCooldown;
     }
 
 }

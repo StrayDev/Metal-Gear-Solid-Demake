@@ -94,6 +94,9 @@ GameObject:
   - component: {fileID: 1592672635140577206}
   - component: {fileID: 4823120617049593823}
   - component: {fileID: 1986736157966777512}
+  - component: {fileID: 2580015964090062253}
+  - component: {fileID: 6127470104339189613}
+  - component: {fileID: 4600722157672308540}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Untagged
@@ -152,9 +155,8 @@ MonoBehaviour:
   soundController: {fileID: 0}
   detectedAudioClip: {fileID: 8300000, guid: 0971f771c641b864ebb0b82b04306ef4, type: 3}
   angleOfView: 25
-  maxViewDistance: 5
+  normalViewDistance: 5
   numberOfRaycasts: 10
-  shootCooldown: 3
 --- !u!114 &4823120617049593823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
+  shootCooldown: 3
 --- !u!222 &1986736157966777512
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -176,3 +179,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592672635140577204}
   m_CullTransparentMesh: 1
+--- !u!114 &2580015964090062253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592672635140577204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f325a0b4455f9de47a2c6ceeca72d8b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+--- !u!114 &6127470104339189613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592672635140577204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f581828b339e85d48ad1ffd5b8ee7340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  surprisedTime: 1
+  searchTime: 10
+  enable_debug_messages: 0
+  nodes: []
+--- !u!54 &4600722157672308540
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592672635140577204}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

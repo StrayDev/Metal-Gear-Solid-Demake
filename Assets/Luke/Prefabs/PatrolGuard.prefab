@@ -48,10 +48,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953d53c5a20663a44845fdeca7e96147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angleOfView: 26.66
-  maxViewDistance: 5
-  numberOfRaycasts: 10
-  shootCooldown: 3
+  onPlayerDetected:
+    m_PersistentCalls:
+      m_Calls: []
+  detectedWorldSpaceUI: {fileID: 352657788422629603, guid: efd41ade6e4f899498281e60ae560d4f, type: 3}
+  soundController: {fileID: 0}
+  detectedAudioClip: {fileID: 8300000, guid: 0971f771c641b864ebb0b82b04306ef4, type: 3}
+  peripheralAngleOfView: 25
+  directAngleOfView: 5
+  normalViewDistance: 5
+  peripheralNumberOfRaycasts: 10
+  directNumberOfRaycasts: 20
 --- !u!114 &6753136177958099976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
+  shootCooldown: 3
 --- !u!54 &7673288803185278201
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -93,6 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f581828b339e85d48ad1ffd5b8ee7340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  surprisedTime: 3
+  searchTime: 10
+  dismissTime: 5
+  enable_debug_messages: 0
   nodes: []
 --- !u!114 &6871375963257927860
 MonoBehaviour:
@@ -106,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f325a0b4455f9de47a2c6ceeca72d8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 2
 --- !u!1 &667254462461712424
 GameObject:
   m_ObjectHideFlags: 0

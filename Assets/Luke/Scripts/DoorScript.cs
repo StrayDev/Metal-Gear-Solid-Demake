@@ -21,7 +21,6 @@ public class DoorScript : MonoBehaviour, IInteractable
             return;
         }
         onInteractDoorLocked?.Invoke();
-        return;
     }
 
     private void TempOpenDoorFnc()

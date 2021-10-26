@@ -26,9 +26,17 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    void Start() {
+        if(GameController.Instance == null)
+        {
+            Debug.LogError("Found no GameController instance, ensure there is a GameController in the scene");
+            return;
+        }
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
-        // TODO -- hurt player
+        if (collider.transform.parent.gameObject.GetComponent<PlayerController>() != null) {GameController.Instance.onPlayerShot?.Invoke();}
         gameObject.SetActive(false);
     }
 }

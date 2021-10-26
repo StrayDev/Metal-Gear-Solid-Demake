@@ -11,8 +11,11 @@ public class LevelController : MonoBehaviour
     [SerializeField] private Transform spawn_point;
     [SerializeField] private CinemachineVirtualCamera starting_virtual_cam;
     [SerializeField] private CinemachineConfiner2D confiner2D;
+    [SerializeField] private ProgressBar stamina_bar;
 
     private GameObject player;
+
+    private float health = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -29,9 +32,36 @@ public class LevelController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    private void ToEndScreen() {
+        SceneManager.LoadScene(3);
+    }
+
+    public void ToWinScreen() {
+        SceneManager.LoadScene(2);
+    }
+
+    public void VentPlayerToLoaction(Transform _new_position) {
+        player.transform.position = new Vector3(_new_position.position.x, _new_position.position.y, player.transform.position.z);
+    }
+
+    public void Heal() {
+        health += 0.20f;
+        if (health > 1) {health = 1;}
+    }
+
+    public void TakeDamage() {
+        health -= 0.25f;
+        if (health <= 0) {
+            ToEndScreen();
+        }
+    }
+
+    public float getPlayerHealth() => health;
+
     // Update is called once per frame
     void Update()
     {
-        
+        health -= (0.008f*Time.deltaTime);
+        stamina_bar.SetProgressBarValue(health);
     }
 }

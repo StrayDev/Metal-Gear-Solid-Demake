@@ -6,15 +6,6 @@ using UnityEngine;
 
 public class PlayerDetection : MonoBehaviour
 {
-    [SerializeField] 
-    private UnityEvent onPlayerDetected = default;
-    [SerializeField]
-    private GameObject detectedWorldSpaceUI = null;
-    [SerializeField]
-    private SoundController soundController = null;
-    [SerializeField]
-    private AudioClip detectedAudioClip = null;
-
     [SerializeField]
     private float peripheralAngleOfView = 25f;
     [SerializeField]
@@ -36,10 +27,7 @@ public class PlayerDetection : MonoBehaviour
         brain = GetComponent<SimpleGuardBrain>();
         maxViewDistance = normalViewDistance;
         alertViewDistance = normalViewDistance * 1.5f;
-        soundController = FindObjectOfType<SoundController>();
     }
-
-    private bool seenPlayer = false;
 
     // Update is called once per frame
     void Update()
@@ -141,30 +129,6 @@ public class PlayerDetection : MonoBehaviour
 
     private void SeesPlayer()
     {
-        // Call player detected events if this is the first time the player is detected since the guard lost sight
-        if(!seenPlayer)
-        {
-            // Increment the number of times the player is detected
-            GameController.Instance.playerDetectedCount += 1;
-
-            // Spawn detected ui
-            var ui = Instantiate(detectedWorldSpaceUI);
-            var wsUI = ui.GetComponent<DetectedExclamationUI>();
-            if(wsUI)
-            {
-                wsUI.SetOwner(this.gameObject);
-            }
-
-            // Play detected sound
-            soundController.PlaySoundClipOneShot(detectedAudioClip);
-
-            // Call bound onPlayerDetected events
-            onPlayerDetected?.Invoke();
-
-            // Flag player is currently seen by the guard
-            seenPlayer = true;
-        }
-
         maxViewDistance = alertViewDistance;
 
         GetComponentInChildren<Renderer>().material.color = Color.red;
@@ -177,7 +141,6 @@ public class PlayerDetection : MonoBehaviour
 
         GetComponentInChildren<Renderer>().material.color = Color.green;
         brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.NONE);
-        seenPlayer = false;
     }
 
     private void PlayerSlightlyVisible()
@@ -185,6 +148,5 @@ public class PlayerDetection : MonoBehaviour
         maxViewDistance = alertViewDistance;
         GetComponentInChildren<Renderer>().material.color = Color.yellow;
         brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.PERIPHERAL);
-        seenPlayer = false;
     }
 }

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 public class SimpleGuardBrain : MonoBehaviour
 {
@@ -19,6 +20,15 @@ public class SimpleGuardBrain : MonoBehaviour
         SEARCH = 2,
         SPOTTED = 3,
     };
+
+    [SerializeField]
+    private UnityEvent onPlayerDetected = default;
+    [SerializeField]
+    private GameObject detectedWorldSpaceUI = null;
+    [SerializeField]
+    private SoundController soundController = null;
+    [SerializeField]
+    private AudioClip detectedAudioClip = null;
 
     // Start is called before the first frame update
     private int current_node_position = 0;
@@ -54,8 +64,8 @@ public class SimpleGuardBrain : MonoBehaviour
     }
     void Start()
     { 
+        soundController = FindObjectOfType<SoundController>();
         patrolRoutine = StartCoroutine("processNodes");
-    
     }
 
     public PlayerVisibility GetVisibility()
@@ -213,6 +223,24 @@ public class SimpleGuardBrain : MonoBehaviour
     public void EngageCombat()
     {
         if (currentState == GuardState.COMBAT) return;
+
+        // Increment the number of times the player is detected
+        GameController.Instance.playerDetectedCount += 1;
+
+        // Spawn detected ui
+        var ui = Instantiate(detectedWorldSpaceUI);
+        var wsUI = ui.GetComponent<DetectedExclamationUI>();
+        if (wsUI)
+        {
+            wsUI.SetOwner(this.gameObject);
+        }
+
+        // Play detected sound
+        soundController.PlaySoundClipOneShot(detectedAudioClip);
+
+        // Invoke on detected events
+        onPlayerDetected?.Invoke();
+
         currentState = GuardState.COMBAT;
         guard_movement_comp.Move(Vector2.zero);
     }

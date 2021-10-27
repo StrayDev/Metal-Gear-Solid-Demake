@@ -1,0 +1,48 @@
+-----------------------------------------------------------------------------------
+Luke Eyre, 18021178
+Metal Gear Demake
+Week 2, 27/10/21
+
+**Tasks completed**
+
++ Players can now vent to and from locations.
++ Ammo has been added but does nothing.
+
+Added vents, which allow the player to move from one vent to another. 
+They are fun for breaking up levels and also creating alternate routes.
+Also added ammo, but that does nothing yet. Later if the tranq feature is added it will be how you get ammo.
+
++ If a players stamina hits zero, they die, taking them to the game over screen.
++ Players can now take damage from bullets, reducing their stamina.
++ players stamina reduces slowly over time.
++ players can find healing items to increase their stamina.
++ UI stamina bar now has colour and updates with stamina value.
+~ Fixed a bug that meant that you had to be shot for your stamina being zero to kill you.
+
+Stamina is a core mechanic used to drive players, it stops players from lingering too long in one place and 
+also adds new short-term objectives, like finding stamina healing items. 
+
+When your stamina hits zero, you can now lose the game. 
+
++ Events are exposed for collecting healing and ammo items, taking damage, and using vents.
+
+This means we can hook in sound and other events if we need too. 
+
++ Keycard now has keycard sprite that changes colour alongside colour value.
++ Winning the game now takes you to the win screen.
+
+Keycards now have the proper sprites. 
+
++ Added new level section.
++ Added a new key card colour (red).
+
+Added new level section with multiple guards and requires vent use.
+Added red keycard for the new final door. Game goes to win screen after opening the third door.
+
+**Questions raised**
+
+Should the game fail after you have been spotted three times or after your stamina runs out? Or both?
+
+After thinking about this question, I have decided that because being spotted can be quite common, especially when learning the map, you don’t want being spotted to end the game, but instead have being spotted greatly reduce your score.
+
+So instead, stamina should end the game. It also gives a sense of urgency to the level as the stamina bar reduces over time which also allows me to make levels more interesting with stamina healing item placement.

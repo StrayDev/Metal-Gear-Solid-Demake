@@ -12,6 +12,8 @@ public class GenericHighlightButton : MonoBehaviour
         StartGame = 0,
         ExitGame = 1,
         MainMenu = 2,
+        MainMenu2 = 3,
+        MainMenu3 = 4,
         OptionCount,
     }
 
@@ -153,7 +155,7 @@ public class GenericHighlightButton : MonoBehaviour
             soundController.PlaySoundClipOneShot(moveAudioClip);
 
             // Scroll up through the menu
-            selectedOption = (EMenuOptions)Mathf.Abs((((int)selectedOption - (((int)selectedOption == 0) ? 2 : 1)) % ((int)EMenuOptions.OptionCount)));
+            selectedOption = (EMenuOptions)Mathf.Abs(((int)selectedOption - ((selectedOption == 0) ? ((int)EMenuOptions.OptionCount - 1) : 1)) % ((int)EMenuOptions.OptionCount));
             SelectMenuOption(selectedOption);
         }
 

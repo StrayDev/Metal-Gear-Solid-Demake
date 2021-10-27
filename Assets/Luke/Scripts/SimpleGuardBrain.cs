@@ -21,14 +21,24 @@ public class SimpleGuardBrain : MonoBehaviour
         SPOTTED = 3,
     };
 
+    private enum AlertType
+    {
+        HESITATE = 0,
+        ALERT = 1,
+    }
+
     [SerializeField]
     private UnityEvent onPlayerDetected = default;
     [SerializeField]
     private GameObject detectedWorldSpaceUI = null;
     [SerializeField]
+    private GameObject spottedWorldSpaceUI = null;
+    [SerializeField]
     private SoundController soundController = null;
     [SerializeField]
     private AudioClip detectedAudioClip = null;
+    [SerializeField]
+    private AudioClip questionAudioClip = null;
 
     // Start is called before the first frame update
     private int current_node_position = 0;
@@ -40,6 +50,7 @@ public class SimpleGuardBrain : MonoBehaviour
     private Rigidbody playerRb;
 
     private Coroutine patrolRoutine;
+    private GameObject alertUI;
 
     private Vector3 lastSeenPlayerPos;
     private Vector2 lastSeenPlayerVelocity;
@@ -55,6 +66,8 @@ public class SimpleGuardBrain : MonoBehaviour
     [SerializeField]
     private float dismissTime = 3f;
     private float dismissWait = 0f;
+
+    private bool alerted = false;
 
     [SerializeField] private bool enable_debug_messages = false;
     [SerializeField] private List<GuardNode> nodes;
@@ -208,6 +221,7 @@ public class SimpleGuardBrain : MonoBehaviour
     public void SpotPlayer()
     {
         if (currentState == GuardState.SPOTTED) return;
+
         lastSeenPlayerPos = player.transform.position;
         lastSeenPlayerVelocity = playerRb.velocity;
         currentState = GuardState.SPOTTED;
@@ -217,36 +231,54 @@ public class SimpleGuardBrain : MonoBehaviour
             guard_movement_comp.Move(Vector2.zero);
             patrolRoutine = null;
         }
+        PlaySound(AlertType.HESITATE);
         surprisedWait = surprisedTime;
     }
 
     public void EngageCombat()
     {
         if (currentState == GuardState.COMBAT) return;
-
-        // Increment the number of times the player is detected
-        GameController.Instance.playerDetectedCount += 1;
-
-        // Spawn detected ui
-        var ui = Instantiate(detectedWorldSpaceUI);
-        var wsUI = ui.GetComponent<DetectedExclamationUI>();
-        if (wsUI)
+        
+        if(alerted == false)
         {
-            wsUI.SetOwner(this.gameObject);
+            alerted = true;
+            PlaySound(AlertType.ALERT);
         }
-
-        // Play detected sound
-        soundController.PlaySoundClipOneShot(detectedAudioClip);
-
-        // Invoke on detected events
-        onPlayerDetected?.Invoke();
 
         currentState = GuardState.COMBAT;
         guard_movement_comp.Move(Vector2.zero);
     }
 
+    private void PlaySound(AlertType alert)
+    {
+        if (alertUI != null)
+        {
+            Destroy(alertUI);
+            alertUI = null;
+        }
+        if (alert == AlertType.HESITATE)
+        {
+            alertUI = Instantiate(spottedWorldSpaceUI);
+            soundController.PlaySoundClipOneShot(questionAudioClip);
+        }
+        else
+        {
+            alertUI = Instantiate(detectedWorldSpaceUI);
+            soundController.PlaySoundClipOneShot(detectedAudioClip);
+            GameController.Instance.playerDetectedCount += 1;
+        }
+
+        // Spawn detected ui
+        var wsUI = alertUI.GetComponent<DetectedExclamationUI>();
+        if (wsUI)
+        {
+            wsUI.SetOwner(this.gameObject);
+        }
+    }
+
     public void ResumePatrol()
     {
+        alerted = false;
         currentState = GuardState.PATROL;
         patrolRoutine = StartCoroutine(processNodes());
     }

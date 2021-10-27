@@ -14,6 +14,7 @@ public class DetectedExclamationUI : MonoBehaviour
     public void SetOwner(GameObject owner)
     {
         owningObject = owner;
+        transform.SetParent(owner.transform);
     }
 
     private void UpdatePosition()

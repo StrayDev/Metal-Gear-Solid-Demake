@@ -95,9 +95,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f581828b339e85d48ad1ffd5b8ee7340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onPlayerDetected:
+    m_PersistentCalls:
+      m_Calls: []
   detectedWorldSpaceUI: {fileID: 352657788422629603, guid: efd41ade6e4f899498281e60ae560d4f, type: 3}
+  spottedWorldSpaceUI: {fileID: 352657788422629603, guid: 612a7f60bd48f4740909c5849130ad7f, type: 3}
   soundController: {fileID: 0}
   detectedAudioClip: {fileID: 8300000, guid: 0971f771c641b864ebb0b82b04306ef4, type: 3}
+  questionAudioClip: {fileID: 8300000, guid: b4cd4441d41c7b246bd1d0ba232e858e, type: 3}
   surprisedTime: 3
   searchTime: 10
   dismissTime: 5

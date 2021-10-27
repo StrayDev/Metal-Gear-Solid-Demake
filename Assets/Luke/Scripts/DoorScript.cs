@@ -11,6 +11,10 @@ public class DoorScript : MonoBehaviour, IInteractable
     [SerializeField] private UnityEvent onInteractDoorUnlocked = default;
     [SerializeField] private UnityEvent onInteractDoorLocked = default;
 
+    [SerializeField] private Transform teleport_location;
+
+    [SerializeField] private LevelController level_controller;
+
     public void Unlock() {
         locked = false;
     }
@@ -25,8 +29,9 @@ public class DoorScript : MonoBehaviour, IInteractable
 
     private void TempOpenDoorFnc()
     {
-        transform.position += (transform.right*2);
+        //transform.position += (transform.right*2);
         open = true;
+        level_controller.VentPlayerToLoaction(teleport_location);
     }
 
 }

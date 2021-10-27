@@ -21342,6 +21342,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5015225616284650878, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: level_controller
+      value: 
+      objectReference: {fileID: 2291569111279204573}
+    - target: {fileID: 5015225616284650878, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: onInteractDoorUnlocked.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -21798,6 +21802,10 @@ PrefabInstance:
       propertyPath: access_level
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5015225616284650878, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: level_controller
+      value: 
+      objectReference: {fileID: 2291569111279204573}
     - target: {fileID: 5015225616284650878, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: onInteractDoorUnlocked.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -22309,6 +22317,10 @@ PrefabInstance:
       propertyPath: access_level
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5015225616284650878, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: level_controller
+      value: 
+      objectReference: {fileID: 2291569111279204573}
     - target: {fileID: 5015225616284650878, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: onInteractDoorUnlocked.m_PersistentCalls.m_Calls.Array.size
       value: 1

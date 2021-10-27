@@ -12,7 +12,7 @@ public class FOVEditor : Editor
         Handles.color = Color.white;
         Handles.DrawWireArc(
             fov.transform.position, 
-            Vector3.up, 
+            Vector3.right, 
             Vector3.forward, 
             360, 
             fov.viewRadius);
@@ -27,5 +27,8 @@ public class FOVEditor : Editor
         Handles.DrawLine(
             fov.transform.position, 
             fov.transform.position + viewAngleB * fov.viewAngle);
+
+        Handles.DrawLine(fov.transform.position, fov.transform.position + fov.transform.up * 3);
+        
     }
 }

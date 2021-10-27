@@ -68,13 +68,10 @@ public class FOV : MonoBehaviour
     {
         if (!angleIsGlobal)
         {
-            angleInDegrees += transform.eulerAngles.y;
+            angleInDegrees += -transform.eulerAngles.z;
         }
 
-        return new Vector3(
-            Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 
-            0, 
-            Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
     }
 
     ViewCastInfo ViewCast(float globalAngle)
@@ -135,7 +132,7 @@ public class FOV : MonoBehaviour
 
         for(int i = 0; i <= step_count; i++)
         {
-            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            float angle = -transform.eulerAngles.z - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo viewCast = ViewCast(angle);
 
             if (i > 0)

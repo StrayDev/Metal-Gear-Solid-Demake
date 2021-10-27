@@ -10,6 +10,7 @@ public class KeycardScript : MonoBehaviour
     {
         Undefined = 0,
         Blue,
+        Red,
         Orange,
     }
 
@@ -21,6 +22,7 @@ public class KeycardScript : MonoBehaviour
     void Awake() {
         sprite.color = color switch {
             KeycardColor.Blue => Color.blue,
+            KeycardColor.Red => Color.red,
             KeycardColor.Orange => new Color(0.255f * 6.0f, 0.165f * 6.0f, 0.0f),
             _ => throw new ArgumentException($"Unregistered colour used to set keycard colour: {color}")
         };

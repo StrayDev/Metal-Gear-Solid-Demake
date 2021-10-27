@@ -92,6 +92,7 @@ public class InGameUI : MonoBehaviour
                 switch(keycard.GetKeycardColor())
                 {
                     case KeycardScript.KeycardColor.Blue: image.color = Color.blue; break;
+                    case KeycardScript.KeycardColor.Red: image.color = Color.red; break;
                     case KeycardScript.KeycardColor.Orange: image.color = new Color(0.255f * 6.0f, 0.165f * 6.0f, 0.0f); break;
                 }
             }

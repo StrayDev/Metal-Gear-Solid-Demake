@@ -466,6 +466,30 @@ PrefabInstance:
       propertyPath: m_WholeNumbers
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5571837567632800456, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+      propertyPath: m_Color.b
+      value: 0.254717
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571837567632800456, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+      propertyPath: m_Color.g
+      value: 0.254717
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571837567632800456, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+      propertyPath: m_Color.r
+      value: 0.254717
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571837567650147908, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+      propertyPath: m_Color.b
+      value: 0.28367367
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571837567650147908, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571837567650147908, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+      propertyPath: m_Color.r
+      value: 0.19496846
+      objectReference: {fileID: 0}
     - target: {fileID: 5571837567650147911, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -866,6 +890,17 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 882480205}
   m_Damping: 0.5
   m_MaxWindowSize: -1
+--- !u!114 &1617582578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2566023146765494426, guid: 27c2ca56171df054795ecf775f5edbca, type: 3}
+  m_PrefabInstance: {fileID: 728120145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c46ac64cd13c1c4798689faf1c84e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1727708484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -924,6 +959,18 @@ PrefabInstance:
     - target: {fileID: 44320314516964711, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
       propertyPath: onPlayerDetected.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 178956512534863386, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
+      propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 178956512534863386, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
+      propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 178956512534863386, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
+      propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 792257792670873160, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
       propertyPath: m_RootOrder
@@ -1001,6 +1048,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelBase
       objectReference: {fileID: 0}
+    - target: {fileID: 1814078288263250867, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
+      propertyPath: m_Name
+      value: Heal1
+      objectReference: {fileID: 0}
     - target: {fileID: 2291569111279204573, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
       propertyPath: player
       value: 
@@ -1009,6 +1060,10 @@ PrefabInstance:
       propertyPath: confiner2D
       value: 
       objectReference: {fileID: 1395872286}
+    - target: {fileID: 2291569111279204573, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
+      propertyPath: stamina_bar
+      value: 
+      objectReference: {fileID: 1617582578}
     - target: {fileID: 2291569111279204573, guid: ba80b846ba5d2624689daad2b51a7248, type: 3}
       propertyPath: starting_virtual_cam
       value: 

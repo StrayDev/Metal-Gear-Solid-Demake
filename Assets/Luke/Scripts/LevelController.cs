@@ -63,5 +63,8 @@ public class LevelController : MonoBehaviour
     {
         health -= (0.008f*Time.deltaTime);
         stamina_bar.SetProgressBarValue(health);
+        if (health <= 0) {
+            ToEndScreen();
+        }
     }
 }

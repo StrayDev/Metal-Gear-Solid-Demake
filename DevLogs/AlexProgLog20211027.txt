@@ -1,0 +1,16 @@
+--------------------------------------------------------------------------
+Wai Yiu Alex Wong, 19021430	
+Metal Gear Demake
+Week 1, 27/10/21
+**Tasks completed**
+- Maintained Repository Cleanliness
+- Updated Workflow software (Github Project)
+- Added more sound and art
+- Added Win Screen and Lose Screen
+- Working on a persistent score system
+
+**Questions raised**
+- Just making sure - Stamina provides bonus points, how much?
+- Is the score resetted everytime the player reenters a level?
+- High score leaderboard?
+--------------------------------------------------------------------------

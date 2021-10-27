@@ -153,7 +153,8 @@ public class GenericHighlightButton : MonoBehaviour
             soundController.PlaySoundClipOneShot(moveAudioClip);
 
             // Scroll up through the menu
-            selectedOption = (EMenuOptions)Mathf.Abs((((int)selectedOption - 1) % ((int)EMenuOptions.OptionCount)));
+            selectedOption = (EMenuOptions)Mathf.Abs((((int)selectedOption - (((int)selectedOption == 0) ? 2 : 1)) % ((int)EMenuOptions.OptionCount)));
+            Debug.Log("selected option: " + selectedOption);
             SelectMenuOption(selectedOption);
         }
 
@@ -166,6 +167,7 @@ public class GenericHighlightButton : MonoBehaviour
             // Scroll down through the menu
             //selectedOption = (EMenuOptions)Mathf.Abs((((int)selectedOption - 1) % ((int)EMenuOptions.OptionCount)));
             selectedOption = (EMenuOptions)(((int)selectedOption + 1) % (int)EMenuOptions.OptionCount);
+            Debug.Log("selected option: " + selectedOption);
             SelectMenuOption(selectedOption);
         }
 

@@ -129,7 +129,7 @@ public class MainMenu : MonoBehaviour
             soundController.PlaySoundClipOneShot(moveAudioClip);
 
             // Scroll up through the menu
-            selectedOption = (EMenuOptions)(((int)selectedOption + 1) % (int)EMenuOptions.OptionCount);
+            selectedOption = (EMenuOptions)Mathf.Abs((((int)selectedOption + 1) % ((int)EMenuOptions.OptionCount)));
             SelectMenuOption(selectedOption);
         }
 

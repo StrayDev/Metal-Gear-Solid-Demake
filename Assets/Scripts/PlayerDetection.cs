@@ -58,7 +58,7 @@ public class PlayerDetection : MonoBehaviour
 
     Transform CheckObjectInDirectSight()
     {
-        return RaycastVisionCone(directAngleOfView, maxViewDistance / 2f, directNumberOfRaycasts);
+        return RaycastVisionCone(directAngleOfView, maxViewDistance / 3f, directNumberOfRaycasts);
     }
 
     Transform RaycastVisionCone(float angle, float distance, int raycastNumber)
@@ -118,7 +118,7 @@ public class PlayerDetection : MonoBehaviour
             //Debug.DrawRay(transform.position, direction, Color.red);
 
             Gizmos.DrawRay(transform.position, transform.up);
-            Gizmos.DrawLine(transform.position, (transform.position + direction * maxViewDistance/2));
+            Gizmos.DrawLine(transform.position, (transform.position + direction * maxViewDistance/3));
         }
     }
 

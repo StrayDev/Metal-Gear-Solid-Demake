@@ -12,8 +12,6 @@ public class GenericHighlightButton : MonoBehaviour
         StartGame = 0,
         ExitGame = 1,
         MainMenu = 2,
-        MainMenu2 = 3,
-        MainMenu3 = 4,
         OptionCount,
     }
 

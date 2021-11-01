@@ -4706,7 +4706,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8f2982e80b795b546a965f1096684b9e, type: 2}
+  - {fileID: 2100000, guid: 27c3a390499246e468506f3b9d36496e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21289,6 +21289,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3553389274821355495, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7fb796175399db841bab4ff7107f9b97, type: 2}
     - target: {fileID: 3671741187672124315, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: m_Name
       value: DoorPrefab3
@@ -22265,6 +22269,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3553389274821355495, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ec3d3e1cd753a754fac581270e249ccb, type: 2}
     - target: {fileID: 3671741187672124315, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: m_Name
       value: DoorPrefab2

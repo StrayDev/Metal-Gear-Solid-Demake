@@ -27,8 +27,8 @@ public class GridEditor : MonoBehaviour
 
     private Plane _plane = new Plane(Vector3.forward, Vector3.zero);  
     private readonly Vector3 _cellBox = new Vector3(1, 1, .01f);
-    private readonly Color _red = new Color(1,0,0, .5f);
-    private readonly Color _black = new Color(0,0,0, .5f);
+    private readonly Color _red = new Color(1,0,0, .3f);
+    private readonly Color _black = new Color(0,0,0, .3f);
     
     private void OnScene(SceneView scene)
     {

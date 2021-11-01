@@ -30,7 +30,7 @@ public class PlayerDetection : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         Transform playerLocation = CheckObjectInDirectSight();
         if (playerLocation != null)

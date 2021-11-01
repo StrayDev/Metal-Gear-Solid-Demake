@@ -56,7 +56,11 @@ public class Pathfinding
             foreach (var n in neighbours)
             {
                 // skip if they are in the closed list 
-                if (closed.Contains(n)) continue;
+                if (closed.Exists(node => node.x == n.x && node.y == n.y)
+                    || open.Exists(node=> node.x == n.x && node.y == n.y))
+                {
+                    continue;
+                }
 
                 // set the distance
                 n.h = Vector2.Distance(new Vector2(n.x, n.y), new Vector2(end.x, end.y)); 
@@ -80,6 +84,8 @@ public class Pathfinding
                     current = n;
                 }
             }
+
+            if (open.Count < 1) return null;
         }
         
         // backtrack along the path to make the list

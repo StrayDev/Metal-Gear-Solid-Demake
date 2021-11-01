@@ -52,6 +52,10 @@ public class SimpleGuardBrain : MonoBehaviour
     private Coroutine patrolRoutine;
     private GameObject alertUI;
 
+    private LevelController levelController;
+    private Pathfinding pathFinder;
+    private NodeGrid grid;
+
     private Vector3 lastSeenPlayerPos;
     private Vector2 lastSeenPlayerVelocity;
 
@@ -69,16 +73,22 @@ public class SimpleGuardBrain : MonoBehaviour
 
     private bool alerted = false;
 
+    private List<Node> currentPath;
+
     [SerializeField] private bool enable_debug_messages = false;
     [SerializeField] private List<GuardNode> nodes;
-    void Awake() {
+
+    void Start()
+    {
         guard_movement_comp = GetComponent<MoveComponent>();
         guard_pos = GetComponent<Transform>();
-    }
-    void Start()
-    { 
+        levelController = FindObjectOfType<LevelController>();
+        grid = levelController?.GetGrid() ?? FindObjectOfType<NodeGrid>();
+        pathFinder = levelController?.GetPathAI();
         soundController = FindObjectOfType<SoundController>();
         patrolRoutine = StartCoroutine("processNodes");
+
+        currentPath = new List<Node>();
     }
 
     public PlayerVisibility GetVisibility()
@@ -103,6 +113,13 @@ public class SimpleGuardBrain : MonoBehaviour
         {
             case GuardState.PATROL:
                 {
+                    if(currentPath.Count > 0)
+                    {
+                        if(MoveToNextNode(1f) == false)
+                        {
+                            ResumePatrol();
+                        }
+                    }
                     if(currentVisibility > 0)
                     {
                         SpotPlayer();
@@ -163,18 +180,16 @@ public class SimpleGuardBrain : MonoBehaviour
                         EngageCombat();
                         break;
                     }
-                    if (Vector3.Distance(lastSeenPlayerPos, guard_pos.position) > 0.5f)
+                    if (currentPath?.Count > 0)
                     {
-                        guard_movement_comp.Move(lastSeenPlayerPos - transform.position, 2f);
+                        if(MoveToNextNode(2f) == false)
+                        {
+                            guard_movement_comp.Direction(lastSeenPlayerVelocity);
+                        }
                     }
-                    else
+                    if ((searchCooldown -= Time.deltaTime) <= 0f)
                     {
-                        guard_movement_comp.Move(Vector2.zero);
-                        guard_movement_comp.Direction(lastSeenPlayerVelocity);
-                    }
-                    if((searchCooldown -= Time.deltaTime) <= 0f)
-                    {
-                        ResumePatrol();
+                        ReturnToRoute();
                     }
                     break;
                 }
@@ -194,13 +209,12 @@ public class SimpleGuardBrain : MonoBehaviour
                             guard_movement_comp.Move(Vector2.zero);
                             if ((dismissWait -= Time.deltaTime) <= 0f)
                             {
-                                ResumePatrol();
+                                ReturnToRoute();
                             }
                             break;
                         }
                     case PlayerVisibility.PERIPHERAL:
                         {
-                            guard_movement_comp.Move(lastSeenPlayerPos - transform.position, 0.6f);
                             if ((surprisedWait -= Time.deltaTime) <= 0f)
                             {
                                 EngageCombat();
@@ -245,6 +259,8 @@ public class SimpleGuardBrain : MonoBehaviour
             PlaySound(AlertType.ALERT);
         }
 
+        currentPath.Clear();
+
         currentState = GuardState.COMBAT;
         guard_movement_comp.Move(Vector2.zero);
     }
@@ -276,10 +292,25 @@ public class SimpleGuardBrain : MonoBehaviour
         }
     }
 
-    public void ResumePatrol()
+    public void ReturnToRoute()
     {
         alerted = false;
         currentState = GuardState.PATROL;
+        if (grid == null) grid = levelController.GetGrid();
+        Node startNode = grid.GetNode(new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y)));
+        Vector2 patrolPos = nodes[current_node_position].position.position;
+        Node endNode = grid.GetNode(new Vector2Int(Mathf.RoundToInt(patrolPos.x), Mathf.RoundToInt(patrolPos.y)));
+        if (pathFinder == null)
+        {
+            levelController = FindObjectOfType<LevelController>();
+            pathFinder = levelController.GetPathAI();
+        }
+        List<Node> newPath = pathFinder.FindPath(startNode, endNode);
+        if (newPath != null) currentPath = newPath;
+    }
+
+    public void ResumePatrol()
+    {
         patrolRoutine = StartCoroutine(processNodes());
     }
 
@@ -287,6 +318,39 @@ public class SimpleGuardBrain : MonoBehaviour
     {
         currentState = GuardState.SEARCH;
         searchCooldown = searchTime;
+        if (grid == null) grid = levelController.GetGrid();
+        Node startNode = grid.GetNode(new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y)));
+        Vector2 playerPos = lastSeenPlayerPos;
+        Node endNode = grid.GetNode(new Vector2Int(Mathf.RoundToInt(playerPos.x), Mathf.RoundToInt(playerPos.y)));
+        if (pathFinder == null)
+        {
+            levelController = FindObjectOfType<LevelController>();
+            pathFinder = levelController.GetPathAI();
+        }
+        List<Node> newPath = pathFinder.FindPath(startNode, endNode);
+        if (newPath != null) currentPath = newPath;
+    }
+
+    private bool MoveToNextNode(float speed)
+    {
+        Vector3 nextPos = new Vector3(currentPath[0].x, currentPath[0].y, guard_pos.position.z);
+        if (Vector3.Distance(nextPos, guard_pos.position) <= 0.8f)
+        {
+            currentPath.RemoveAt(0);
+            if (currentPath.Count > 0)
+            {
+                nextPos.x = currentPath[0].x;
+                nextPos.y = currentPath[0].y;
+            }
+            else
+            {
+                guard_movement_comp.Move(Vector2.zero);
+                return false;
+            }
+        }
+        guard_movement_comp.Move(nextPos - transform.position, speed);
+        guard_movement_comp.Direction((nextPos - transform.position).normalized);
+        return true;
     }
 
     private void TurnToFacePlayer(float turnSpeed)

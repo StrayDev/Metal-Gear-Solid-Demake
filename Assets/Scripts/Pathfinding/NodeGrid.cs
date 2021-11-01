@@ -14,7 +14,15 @@ public class NodeGrid : MonoBehaviour
     
     [SerializeField] private List<Node> nodeList = new List<Node>();
     public List<Node> Nodes => nodeList;
-    
+
+    private void Awake()
+    {
+        if (LevelController.Instance != null)
+        {
+            LevelController.Instance.SetGrid(this);
+        }
+    }
+
     void OnEnable()
     {
         for(var x = 0; x < width; x++)

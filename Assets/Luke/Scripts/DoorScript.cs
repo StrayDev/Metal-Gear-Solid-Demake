@@ -18,6 +18,7 @@ public class DoorScript : MonoBehaviour, IInteractable
 
     public void Unlock() {
         locked = false;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
     }
     public void Interact() {
         if (!locked && (!open || multiUse)) {

@@ -284,6 +284,7 @@ public class SimpleGuardBrain : MonoBehaviour
             alertUI = Instantiate(detectedWorldSpaceUI);
             soundController.PlaySoundClipOneShot(detectedAudioClip);
             GameController.Instance.playerDetectedCount += 1;
+            onPlayerDetected.Invoke();
         }
 
         // Spawn detected ui

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fedba5aaf7ef264eb4d39daa98705e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpPing: {fileID: 8300000, guid: 360822e6857a5f74a8a8330496600e4d, type: 3}
   onPickUp:
     m_PersistentCalls:
       m_Calls:

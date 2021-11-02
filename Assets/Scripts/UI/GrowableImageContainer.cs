@@ -69,7 +69,7 @@ public class GrowableImageContainer : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         // Add image up to the entered initial count
         for(int i = 0; i < initialImageCount; ++i)

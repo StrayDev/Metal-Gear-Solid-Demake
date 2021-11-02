@@ -24,6 +24,8 @@ public class DetectedExclamationUI : MonoBehaviour
 
         // Bring the ui to the front of the scene
         this.transform.position = new Vector3(transform.position.x, transform.position.y + distanceAboveTarget, sceneFrontDepth);
+
+        this.transform.rotation = Quaternion.identity;
     }
 
     // Start is called before the first frame update

@@ -17,6 +17,8 @@ public class PlayerDetection : MonoBehaviour
     private int peripheralNumberOfRaycasts = 10;
     [SerializeField]
     private int directNumberOfRaycasts = 20;
+    [SerializeField]
+    private Animator anim;
 
     private float alertViewDistance;
     private float maxViewDistance;
@@ -129,24 +131,27 @@ public class PlayerDetection : MonoBehaviour
 
     private void SeesPlayer()
     {
+        anim.SetBool("Shooting", true);
         maxViewDistance = alertViewDistance;
 
-        GetComponentInChildren<Renderer>().material.color = Color.red;
+        //GetComponentInChildren<Renderer>().material.color = Color.red;
         brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.DIRECT);
     }
 
     private void DoesNotSeePlayer()
     {
+        anim.SetBool("Shooting", false);
         maxViewDistance = normalViewDistance;
 
-        GetComponentInChildren<Renderer>().material.color = Color.green;
+        //GetComponentInChildren<Renderer>().material.color = Color.green;
         brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.NONE);
     }
 
     private void PlayerSlightlyVisible()
     {
+        anim.SetBool("Shooting", true);
         maxViewDistance = alertViewDistance;
-        GetComponentInChildren<Renderer>().material.color = Color.yellow;
+        //GetComponentInChildren<Renderer>().material.color = Color.yellow;
         brain.SetPlayerVision(SimpleGuardBrain.PlayerVisibility.PERIPHERAL);
     }
 }

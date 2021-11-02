@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private KeyCode interactKey = KeyCode.E;
+    [SerializeField] private Animator anim;
 
     private const string Hor = "Horizontal";
     private const string Ver = "Vertical";

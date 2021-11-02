@@ -30274,9 +30274,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 251509877100186640, guid: 896be790ca88c0b459a69f24325ab452, type: 3}
+      propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 251509877100186640, guid: 896be790ca88c0b459a69f24325ab452, type: 3}
+      propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251509877100186640, guid: 896be790ca88c0b459a69f24325ab452, type: 3}
       propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2249878202114517964}
+    - target: {fileID: 251509877100186640, guid: 896be790ca88c0b459a69f24325ab452, type: 3}
+      propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 251509877100186640, guid: 896be790ca88c0b459a69f24325ab452, type: 3}
+      propertyPath: onPickUp.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: DoorScript, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 546665580297541811, guid: 896be790ca88c0b459a69f24325ab452, type: 3}
       propertyPath: m_Name
       value: Keycard1

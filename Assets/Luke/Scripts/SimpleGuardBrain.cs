@@ -78,7 +78,7 @@ public class SimpleGuardBrain : MonoBehaviour
     [SerializeField] private bool enable_debug_messages = false;
     [SerializeField] private List<GuardNode> nodes;
 
-    void Start()
+    void Awake()
     {
         guard_movement_comp = GetComponent<MoveComponent>();
         guard_pos = GetComponent<Transform>();
@@ -90,6 +90,8 @@ public class SimpleGuardBrain : MonoBehaviour
 
         currentPath = new List<Node>();
     }
+
+    public LevelController GetLevelController => levelController;
 
     public PlayerVisibility GetVisibility()
     {

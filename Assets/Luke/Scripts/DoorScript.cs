@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class DoorScript : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool locked = true;
+    [SerializeField] private bool multiUse = false;
     public bool open {get; private set;} = false;
 
     [SerializeField] private UnityEvent onInteractDoorUnlocked = default;
@@ -19,7 +20,7 @@ public class DoorScript : MonoBehaviour, IInteractable
         locked = false;
     }
     public void Interact() {
-        if (!locked && !open) {
+        if (!locked && (!open || multiUse)) {
             onInteractDoorUnlocked?.Invoke();
             TempOpenDoorFnc();
             return;

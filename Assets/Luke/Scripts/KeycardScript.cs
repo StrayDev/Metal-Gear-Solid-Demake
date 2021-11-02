@@ -12,6 +12,9 @@ public class KeycardScript : MonoBehaviour
         Blue,
         Red,
         Orange,
+        Green,
+        Yellow,
+        Purple
     }
 
     [SerializeField] private UnityEvent onPickUp = default;
@@ -24,6 +27,9 @@ public class KeycardScript : MonoBehaviour
             KeycardColor.Blue => Color.blue,
             KeycardColor.Red => Color.red,
             KeycardColor.Orange => new Color(0.255f * 6.0f, 0.165f * 6.0f, 0.0f),
+            KeycardColor.Green => Color.green,
+            KeycardColor.Yellow => Color.yellow,
+            KeycardColor.Purple => new Color(123,0,192),
             _ => throw new ArgumentException($"Unregistered colour used to set keycard colour: {color}")
         };
     }

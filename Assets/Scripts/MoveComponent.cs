@@ -27,4 +27,10 @@ public class MoveComponent : MonoBehaviour
         _direction = dir; 
         transform.up = _direction;    
     }
+
+    public void setMovementSpeed(float _movement) {
+        moveSpeed = _movement;
+    }
+
+    public float MoveSpeed => moveSpeed;
 }

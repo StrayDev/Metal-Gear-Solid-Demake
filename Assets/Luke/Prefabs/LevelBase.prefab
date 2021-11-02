@@ -28952,6 +28952,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3553389274821355495, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a4723fdd961fd7149b3fdbf88d533bc6, type: 2}
     - target: {fileID: 3671741187672124315, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: m_Name
       value: DoorPrefab5
@@ -32563,6 +32567,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3553389274821355495, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0c0844f58735c13428c4b711981c6970, type: 2}
     - target: {fileID: 3671741187672124315, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: m_Name
       value: DoorPrefab4
@@ -32688,6 +32696,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3553389274821355495, guid: b69256a5816eafa4394670c26280c10f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b85a8646ffd107848babbfdc47352169, type: 2}
     - target: {fileID: 3671741187672124315, guid: b69256a5816eafa4394670c26280c10f, type: 3}
       propertyPath: m_Name
       value: DoorPrefab6

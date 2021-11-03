@@ -461,11 +461,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8353458291451130038, guid: 9033153c4158a8146b2e76a94258da50, type: 3}
       propertyPath: m_fontSize
-      value: 139.15
+      value: 88.95
       objectReference: {fileID: 0}
     - target: {fileID: 8353458291451130038, guid: 9033153c4158a8146b2e76a94258da50, type: 3}
       propertyPath: m_margin.w
-      value: 201.78625
+      value: 42.546295
       objectReference: {fileID: 0}
     - target: {fileID: 8353458291451130038, guid: 9033153c4158a8146b2e76a94258da50, type: 3}
       propertyPath: m_VerticalAlignment

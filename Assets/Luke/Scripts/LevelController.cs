@@ -146,5 +146,9 @@ public class LevelController : MonoBehaviour
         if (health <= 0) {
             ToEndScreen();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToMainMenu();
+        }
     }
 }

@@ -28,6 +28,7 @@ public class MoveComponent : MonoBehaviour
         {
             _renderer.flipX = false;
         }
+        if (_rb == null) _rb = GetComponent<Rigidbody>();
         _rb.velocity = _direction.normalized * moveSpeed * moveMultiplier;
         if (_rb.velocity.x != 0 || _rb.velocity.y != 0)
         {

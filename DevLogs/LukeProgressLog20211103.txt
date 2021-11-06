@@ -1,0 +1,42 @@
+-----------------------------------------------------------------------------------
+Luke Eyre, 18021178
+Metal Gear Demake
+Week 3, 3/11/21
+
+**Tasks completed**
+
++Doors do not open anymore!
+
+You now teleport to the other side of the door
+when you can open them and interact with them.
+Doors are one way!
+
+This was done so that guards cannot follow you into the next rooms. Due to this, the camera will now try to hide previous levels. 
+
++ Level now has 4 rooms (with the final room missing guards as the grid needs to be set up, otherwise complete tho)
++ Difficulty modifier exists with 5 stages (0 being normal)
++ Difficulty modifier increases when you complete the yellow room and restart the level.
++ Difficulty modifier resets after finishing all stages or losing a stage.
++ Difficulty modifier changes the amount of healing items that spawns in early stages and also changes guard speed in the third and final stage.
++ On the final stage, completing the yellow room does not end the game, and instead places you in the uber room (red room). This will require several keycards to complete.
++ The final door in the uber room sends you to the win screen!
++ Added new keycard colours.
++ Can now get and set movement speed in movement comp
++ Changed material colours of rooms on the inside.
+
+The difficulty or "challenge modifier" is a system meant to allow replayability to the game. It currently alters if specific healing items should spawn based on the difficulty level which increases after players finish the game. Dying resets this level. 
+Guard speed is also increased, being twice as fast on the last difficulty level. 
+
+This forces players to get to know the levels and form tactics to help solve the challenge.  
+
+**Questions raised**
+
+Is the difficulty curve too high?
+
+I dont think that I can say for sure as I know the levels to well. But from testing during the presentation today several people who have not played before managed to reach the 2 difficulty level with one reaching level 3 on their first play through (although they could see eachothers runs).
+With that in mind I think that it should be in a good place. 
+
+Is the difficulty level clear?
+
+I dont think we currently did a good job of explaining in-game how the difficulty system works. Perhaps showing the number and changing the text to say 'continue' rather than 'repeat' would help.
+
